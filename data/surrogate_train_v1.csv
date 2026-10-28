@@ -1,0 +1,12 @@
+chi_deg,side,tau_last_unmoved,tau_first_moved,tau_mid,noise_sigma,glide_plane,source,event
+-30.0,twinning,1.16,1.17,1.165,0.002887,- (split),data/chi_small_m30.csv,easy -> split transition
+-24.0,twinning,1.18,1.19,1.185,0.002887,- (split),data/chi_small_m24.csv,easy -> split transition
+-18.0,twinning,1.21,1.22,1.215,0.002887,(-110),data/chi_small_m18.csv,glide jump
+-12.0,twinning,1.22,1.23,1.225,0.002887,(-110),data/chi_small_m12.csv,glide jump
+-6.0,twinning,1.25,1.26,1.255,0.002887,(-110),data/chi_small_m6.csv,glide jump
+0.0,-,1.31,1.32,1.315,0.002887,(-110),"data/chi_small_0.csv (B2, sweep protocol, corrected loading; D6 baseline)",glide jump
+6.0,anti-twinning,1.39,1.4,1.395,0.002887,(-110),data/chi_small_p6.csv,glide jump
+12.0,anti-twinning,1.49,1.5,1.495,0.002887,(-110),data/chi_small_p12.csv,glide jump
+18.0,anti-twinning,1.64,1.65,1.645,0.002887,(-110),data/chi_small_p18.csv,glide jump
+24.0,anti-twinning,1.88,1.89,1.885,0.002887,(-110),data/chi_small_p24.csv,glide jump
+30.0,anti-twinning,2.04,2.05,2.045,0.002887,(-1 0 1),data/chi_small_p30.csv,glide jump

@@ -1,0 +1,11 @@
+# Simulation environment (LAMMPS runs and the DD-map tools): the versions actually used (conda env "lammps", 20-28 Oct 2026).
+# Only needed to re-run simulations. Create: conda env create -f environment-lammps.yml && conda activate projecta-lammps
+name: projecta-lammps
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.17
+  - lammps=2025.07.22=*mpich*
+  - mpich=5.0.2
+  - numpy=2.4.6
+  - matplotlib=3.11.2

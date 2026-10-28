@@ -1,0 +1,30 @@
+# Elastic response of perfect bcc Fe (Mendelev 2003 #2) to an extra xz box tilt, in the screw-cell frame.
+# Frame: x = [111], y = [-110], z = [-1-12]; fully periodic; a = 2.8553 A.
+# Box set in Angstrom from the true repeats a*sqrt3, a*sqrt2, a*sqrt6 (as in sims/01_screw_cell/build.py): 5 x 10 x 4.
+# (LAMMPS 'units lattice' spacing along [-1-12] is 2/3 of the repeat, which gave a non-periodic, pre-stressed box.)
+# A tilt xz = gamma*Lz gives u_x = gamma*z, i.e. engineering shear strain gamma_xz = gamma.
+# Sign convention: LAMMPS pressure P_ij = -sigma_ij (stress, tension positive), in bar; 1 GPa = 10000 bar.
+# Usage: lmp -in in.tilt -var gamma 0.005
+units           metal
+boundary        p p p
+atom_style      atomic
+lattice         bcc 2.8553 orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+variable        a equal 2.8553
+region          box prism 0 $(5*v_a*sqrt(3)) 0 $(10*v_a*sqrt(2)) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+create_box      1 box
+create_atoms    1 box
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+variable        Lz equal lz
+compute         dist all pair/local dist
+compute         dmin all reduce min c_dist inputs local
+thermo_style    custom step pe c_dmin
+run             0
+print           "BOX lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f) atoms=$(atoms) (expected 2*Lx*Ly*Lz/a^3 = $(2*lx*ly*lz/v_a^3:%.1f)) dmin=$(c_dmin:%.4f) (expected a*sqrt3/2 = $(v_a*sqrt(3)/2:%.4f))"
+change_box      all xz final $(v_gamma*v_Lz) remap units box
+min_style       cg
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+thermo_modify   format float %.10g
+minimize        1e-15 1e-15 10000 100000
+print           "STRESS_GPa gamma=${gamma} xz=$(xz:%.8f) sxx=$(-pxx/1e4:%.6f) syy=$(-pyy/1e4:%.6f) szz=$(-pzz/1e4:%.6f) syz=$(-pyz/1e4:%.6f) sxz=$(-pxz/1e4:%.6f) sxy=$(-pxy/1e4:%.6f) fmax=$(fmax:%.2e)"

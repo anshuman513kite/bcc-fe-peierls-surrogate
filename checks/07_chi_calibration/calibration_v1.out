@@ -1,0 +1,77 @@
+chi -30 tau 1.0 it 0: xx=+0.02256 yy=-0.00006 zz=+0.00558 yz=+0.00000 xz=-0.51291 xy=+0.86713 | xy 0.127 % xz 2.581 % other 2.256 % of tau | fail
+chi -30 tau 1.0 it 1: xx=-0.00043 yy=-0.00007 zz=-0.00040 yz=-0.00000 xz=-0.50010 xy=+0.86602 | xy 0.001 % xz 0.021 % other 0.043 % of tau | PASS
+chi -30 tau 1.5 it 0: xx=+0.05047 yy=-0.00006 zz=+0.01258 yz=-0.00001 xz=-0.77817 xy=+1.30138 | xy 0.180 % xz 3.756 % other 3.365 % of tau | fail
+chi -30 tau 1.5 it 1: xx=-0.00124 yy=-0.00007 zz=-0.00116 yz=-0.00001 xz=-0.75040 xy=+1.29902 | xy 0.001 % xz 0.053 % other 0.082 % of tau | PASS
+chi -30 tau 0.5 MODEL: xx=-0.00006 yy=-0.00006 zz=+0.00000 yz=+0.00000 xz=-0.25006 xy=+0.43301 | xy 0.000 % xz 0.025 % other 0.013 % of tau | PASS
+chi -30 tau 2.4 MODEL: xx=-0.00259 yy=-0.00006 zz=-0.00309 yz=+0.00001 xz=-1.20095 xy=+2.07852 | xy 0.003 % xz 0.079 % other 0.129 % of tau | PASS
+chi -24 tau 1.0 it 0: xx=+0.02167 yy=-0.00005 zz=+0.00160 yz=+0.00000 xz=-0.42274 xy=+0.91446 | xy 0.100 % xz 3.935 % other 2.167 % of tau | fail
+chi -24 tau 1.0 it 1: xx=-0.00041 yy=-0.00007 zz=-0.00045 yz=+0.00001 xz=-0.40692 xy=+0.91350 | xy 0.005 % xz 0.046 % other 0.045 % of tau | PASS
+chi -24 tau 1.5 it 0: xx=+0.04858 yy=-0.00006 zz=+0.00359 yz=-0.00001 xz=-0.64540 xy=+1.37223 | xy 0.139 % xz 5.785 % other 3.238 % of tau | fail
+chi -24 tau 1.5 it 1: xx=-0.00133 yy=-0.00007 zz=-0.00147 yz=-0.00001 xz=-0.61072 xy=+1.37025 | xy 0.005 % xz 0.101 % other 0.098 % of tau | PASS
+chi -24 tau 1.5 it 2: xx=-0.00002 yy=-0.00005 zz=-0.00006 yz=-0.00001 xz=-0.61014 xy=+1.37031 | xy 0.000 % xz 0.006 % other 0.004 % of tau | PASS
+chi -24 tau 0.5 MODEL: xx=-0.00021 yy=-0.00006 zz=-0.00019 yz=-0.00000 xz=-0.20352 xy=+0.45676 | xy 0.002 % xz 0.075 % other 0.043 % of tau | PASS
+chi -24 tau 2.4 MODEL: xx=+0.00690 yy=-0.00006 zz=+0.00356 yz=+0.00002 xz=-0.97576 xy=+2.19270 | xy 0.009 % xz 0.041 % other 0.287 % of tau | PASS
+chi -18 tau 1.0 it 0: xx=+0.02094 yy=-0.00007 zz=-0.00171 yz=+0.00001 xz=-0.32766 xy=+0.95173 | xy 0.071 % xz 6.033 % other 2.094 % of tau | fail
+chi -18 tau 1.0 it 1: xx=-0.00035 yy=-0.00006 zz=-0.00044 yz=-0.00002 xz=-0.30923 xy=+0.95100 | xy 0.005 % xz 0.069 % other 0.044 % of tau | PASS
+chi -18 tau 1.5 it 0: xx=+0.04709 yy=-0.00006 zz=-0.00391 yz=-0.00001 xz=-0.50493 xy=+1.42796 | xy 0.097 % xz 8.933 % other 3.139 % of tau | fail
+chi -18 tau 1.5 it 1: xx=-0.00115 yy=-0.00006 zz=-0.00149 yz=-0.00001 xz=-0.46426 xy=+1.42646 | xy 0.009 % xz 0.159 % other 0.100 % of tau | PASS
+chi -18 tau 1.5 it 2: xx=-0.00002 yy=-0.00007 zz=-0.00005 yz=-0.00001 xz=-0.46356 xy=+1.42657 | xy 0.001 % xz 0.008 % other 0.004 % of tau | PASS
+chi -18 tau 0.5 MODEL: xx=-0.00018 yy=-0.00006 zz=-0.00027 yz=-0.00000 xz=-0.15467 xy=+0.47552 | xy 0.002 % xz 0.103 % other 0.055 % of tau | PASS
+chi -18 tau 2.4 MODEL: xx=+0.00789 yy=-0.00007 zz=+0.00230 yz=-0.00001 xz=-0.74273 xy=+2.28270 | xy 0.007 % xz 0.147 % other 0.329 % of tau | PASS
+chi -12 tau 1.0 it 0: xx=+0.02045 yy=-0.00006 zz=-0.00414 yz=+0.00000 xz=-0.22867 xy=+0.97857 | xy 0.043 % xz 9.984 % other 2.045 % of tau | fail
+chi -12 tau 1.0 it 1: xx=-0.00027 yy=-0.00006 zz=-0.00032 yz=+0.00000 xz=-0.20804 xy=+0.97810 | xy 0.005 % xz 0.062 % other 0.032 % of tau | PASS
+chi -12 tau 1.5 it 0: xx=+0.04618 yy=-0.00006 zz=-0.00976 yz=-0.00001 xz=-0.35820 xy=+1.46799 | xy 0.052 % xz 14.857 % other 3.079 % of tau | fail
+chi -12 tau 1.5 it 1: xx=-0.00070 yy=-0.00005 zz=-0.00116 yz=+0.00001 xz=-0.31259 xy=+1.46707 | xy 0.010 % xz 0.231 % other 0.077 % of tau | PASS
+chi -12 tau 1.5 it 2: xx=-0.00001 yy=-0.00006 zz=-0.00003 yz=+0.00002 xz=-0.31189 xy=+1.46718 | xy 0.003 % xz 0.008 % other 0.004 % of tau | PASS
+chi -12 tau 0.5 MODEL: xx=-0.00010 yy=-0.00007 zz=-0.00019 yz=-0.00000 xz=-0.10408 xy=+0.48905 | xy 0.004 % xz 0.115 % other 0.038 % of tau | PASS
+chi -12 tau 2.4 MODEL: xx=+0.00856 yy=-0.00006 zz=+0.00244 yz=+0.00001 xz=-0.50266 xy=+2.34789 | xy 0.014 % xz 0.736 % other 0.356 % of tau | PASS
+chi  -6 tau 1.0 it 0: xx=+0.02013 yy=-0.00007 zz=-0.00573 yz=+0.00000 xz=-0.12661 xy=+0.99466 | xy 0.014 % xz 21.123 % other 2.013 % of tau | fail
+chi  -6 tau 1.0 it 1: xx=-0.00010 yy=-0.00006 zz=-0.00019 yz=+0.00001 xz=-0.10468 xy=+0.99446 | xy 0.006 % xz 0.143 % other 0.019 % of tau | PASS
+chi  -6 tau 1.0 it 2: xx=+0.00000 yy=-0.00006 zz=-0.00000 yz=+0.00001 xz=-0.10453 xy=+0.99452 | xy 0.000 % xz 0.004 % other 0.006 % of tau | PASS
+chi  -6 tau 1.5 it 0: xx=+0.04595 yy=-0.00007 zz=-0.01354 yz=+0.00001 xz=-0.20667 xy=+1.49191 | xy 0.008 % xz 31.811 % other 3.063 % of tau | fail
+chi  -6 tau 1.5 it 1: xx=-0.00010 yy=-0.00005 zz=-0.00068 yz=+0.00001 xz=-0.15737 xy=+1.49160 | xy 0.013 % xz 0.371 % other 0.045 % of tau | PASS
+chi  -6 tau 1.5 it 2: xx=+0.00001 yy=-0.00004 zz=-0.00001 yz=+0.00001 xz=-0.15681 xy=+1.49178 | xy 0.000 % xz 0.012 % other 0.003 % of tau | PASS
+chi  -6 tau 0.5 MODEL: xx=+0.00008 yy=-0.00006 zz=-0.00004 yz=+0.00000 xz=-0.05233 xy=+0.49727 | xy 0.001 % xz 0.132 % other 0.015 % of tau | PASS
+chi  -6 tau 2.4 MODEL: xx=+0.00648 yy=-0.00006 zz=+0.00050 yz=-0.00000 xz=-0.25778 xy=+2.38658 | xy 0.012 % xz 2.757 % other 0.270 % of tau | fail
+chi  +0 tau 1.0 it 0: xx=+0.02008 yy=-0.00006 zz=-0.00634 yz=+0.00002 xz=-0.02265 xy=+0.99984 | xy 0.016 % xz 2.265 % other 2.008 % of tau | fail
+chi  +0 tau 1.0 it 1: xx=+0.00005 yy=-0.00006 zz=+0.00000 yz=+0.00001 xz=-0.00006 xy=+0.99995 | xy 0.005 % xz 0.006 % other 0.006 % of tau | PASS
+chi  +0 tau 1.5 it 0: xx=+0.04642 yy=-0.00005 zz=-0.01507 yz=+0.00001 xz=-0.05174 xy=+1.49944 | xy 0.037 % xz 3.450 % other 3.094 % of tau | fail
+chi  +0 tau 1.5 it 1: xx=+0.00056 yy=-0.00006 zz=+0.00002 yz=+0.00001 xz=-0.00045 xy=+1.49980 | xy 0.013 % xz 0.030 % other 0.037 % of tau | PASS
+chi  +0 tau 0.5 MODEL: xx=+0.00013 yy=-0.00006 zz=-0.00010 yz=+0.00000 xz=-0.00009 xy=+0.50000 | xy 0.000 % xz 0.018 % other 0.026 % of tau | PASS
+chi  +0 tau 2.4 MODEL: xx=+0.00903 yy=-0.00007 zz=+0.00162 yz=+0.00000 xz=-0.00923 xy=+2.39897 | xy 0.043 % xz 0.385 % other 0.376 % of tau | PASS
+chi  +6 tau 1.0 it 0: xx=+0.02024 yy=-0.00007 zz=-0.00588 yz=-0.00000 xz=+0.08204 xy=+0.99406 | xy 0.046 % xz 21.515 % other 2.024 % of tau | fail
+chi  +6 tau 1.0 it 1: xx=+0.00021 yy=-0.00007 zz=+0.00021 yz=-0.00001 xz=+0.10459 xy=+0.99447 | xy 0.005 % xz 0.060 % other 0.021 % of tau | PASS
+chi  +6 tau 1.5 it 0: xx=+0.04750 yy=-0.00006 zz=-0.01408 yz=+0.00001 xz=+0.10477 xy=+1.49058 | xy 0.080 % xz 33.182 % other 3.167 % of tau | fail
+chi  +6 tau 1.5 it 1: xx=+0.00126 yy=-0.00007 zz=+0.00069 yz=-0.00000 xz=+0.15654 xy=+1.49158 | xy 0.013 % xz 0.164 % other 0.084 % of tau | PASS
+chi  +6 tau 1.5 it 2: xx=+0.00002 yy=-0.00007 zz=-0.00001 yz=-0.00000 xz=+0.15677 xy=+1.49178 | xy 0.000 % xz 0.012 % other 0.005 % of tau | PASS
+chi  +6 tau 0.5 MODEL: xx=+0.00037 yy=-0.00007 zz=+0.00001 yz=+0.00001 xz=+0.05211 xy=+0.49724 | xy 0.004 % xz 0.293 % other 0.073 % of tau | PASS
+chi  +6 tau 2.4 MODEL: xx=+0.00118 yy=-0.00008 zz=+0.00044 yz=+0.00000 xz=+0.24539 xy=+2.38705 | xy 0.008 % xz 2.182 % other 0.049 % of tau | fail
+chi +12 tau 1.0 it 0: xx=+0.02064 yy=-0.00007 zz=-0.00447 yz=+0.00001 xz=+0.18644 xy=+0.97743 | xy 0.074 % xz 10.327 % other 2.064 % of tau | fail
+chi +12 tau 1.0 it 1: xx=+0.00035 yy=-0.00006 zz=+0.00032 yz=+0.00001 xz=+0.20805 xy=+0.97810 | xy 0.005 % xz 0.068 % other 0.035 % of tau | PASS
+chi +12 tau 1.5 it 0: xx=+0.04915 yy=-0.00007 zz=-0.01074 yz=+0.00000 xz=+0.26136 xy=+1.46542 | xy 0.123 % xz 16.195 % other 3.276 % of tau | fail
+chi +12 tau 1.5 it 1: xx=+0.00182 yy=-0.00007 zz=+0.00130 yz=+0.00001 xz=+0.31177 xy=+1.46703 | xy 0.013 % xz 0.031 % other 0.121 % of tau | PASS
+chi +12 tau 1.5 it 2: xx=+0.00001 yy=-0.00007 zz=-0.00002 yz=-0.00000 xz=+0.31184 xy=+1.46723 | xy 0.000 % xz 0.008 % other 0.005 % of tau | PASS
+chi +12 tau 0.5 MODEL: xx=+0.00048 yy=-0.00007 zz=+0.00012 yz=-0.00001 xz=+0.10378 xy=+0.48905 | xy 0.005 % xz 0.168 % other 0.097 % of tau | PASS
+chi +12 tau 2.4 MODEL: xx=-0.00306 yy=-0.00007 zz=-0.00123 yz=+0.00000 xz=+0.49582 xy=+2.34786 | xy 0.013 % xz 0.634 % other 0.128 % of tau | PASS
+chi +18 tau 1.0 it 0: xx=+0.02126 yy=-0.00006 zz=-0.00203 yz=-0.00000 xz=+0.28935 xy=+0.95010 | xy 0.100 % xz 6.366 % other 2.126 % of tau | fail
+chi +18 tau 1.0 it 1: xx=+0.00052 yy=-0.00006 zz=+0.00047 yz=+0.00000 xz=+0.30914 xy=+0.95102 | xy 0.004 % xz 0.039 % other 0.052 % of tau | PASS
+chi +18 tau 1.5 it 0: xx=+0.05114 yy=-0.00007 zz=-0.00517 yz=+0.00001 xz=+0.41631 xy=+1.42422 | xy 0.166 % xz 10.186 % other 3.409 % of tau | fail
+chi +18 tau 1.5 it 1: xx=+0.00226 yy=-0.00007 zz=+0.00179 yz=+0.00001 xz=+0.46358 xy=+1.42643 | xy 0.011 % xz 0.013 % other 0.151 % of tau | PASS
+chi +18 tau 1.5 it 2: xx=+0.00000 yy=-0.00007 zz=-0.00003 yz=+0.00001 xz=+0.46350 xy=+1.42659 | xy 0.000 % xz 0.007 % other 0.004 % of tau | PASS
+chi +18 tau 0.5 MODEL: xx=+0.00064 yy=-0.00006 zz=+0.00022 yz=+0.00000 xz=+0.15429 xy=+0.47551 | xy 0.005 % xz 0.143 % other 0.127 % of tau | PASS
+chi +18 tau 2.4 MODEL: xx=-0.00665 yy=-0.00007 zz=-0.00198 yz=+0.00000 xz=+0.74108 xy=+2.28298 | xy 0.019 % xz 0.076 % other 0.277 % of tau | PASS
+chi +24 tau 1.0 it 0: xx=+0.02208 yy=-0.00006 zz=+0.00107 yz=-0.00000 xz=+0.38956 xy=+0.91239 | xy 0.126 % xz 4.222 % other 2.208 % of tau | fail
+chi +24 tau 1.0 it 1: xx=+0.00054 yy=-0.00006 zz=+0.00052 yz=-0.00000 xz=+0.40688 xy=+0.91352 | xy 0.003 % xz 0.036 % other 0.054 % of tau | PASS
+chi +24 tau 1.5 it 0: xx=+0.05343 yy=-0.00007 zz=+0.00234 yz=+0.00001 xz=+0.56795 xy=+1.36751 | xy 0.205 % xz 6.909 % other 3.562 % of tau | fail
+chi +24 tau 1.5 it 1: xx=+0.00245 yy=-0.00005 zz=+0.00199 yz=+0.00001 xz=+0.61019 xy=+1.37022 | xy 0.007 % xz 0.014 % other 0.163 % of tau | PASS
+chi +24 tau 1.5 it 2: xx=-0.00001 yy=-0.00005 zz=-0.00005 yz=+0.00001 xz=+0.61007 xy=+1.37032 | xy 0.000 % xz 0.006 % other 0.004 % of tau | PASS
+chi +24 tau 0.5 MODEL: xx=+0.00067 yy=-0.00006 zz=+0.00031 yz=+0.00001 xz=+0.20314 xy=+0.45676 | xy 0.004 % xz 0.114 % other 0.134 % of tau | PASS
+chi +24 tau 2.4 MODEL: xx=-0.00870 yy=-0.00006 zz=-0.00407 yz=-0.00001 xz=+0.97799 xy=+2.19280 | xy 0.013 % xz 0.186 % other 0.363 % of tau | PASS
+chi +30 tau 1.0 it 0: xx=+0.02309 yy=-0.00005 zz=+0.00515 yz=+0.00000 xz=+0.48590 xy=+0.86472 | xy 0.151 % xz 2.820 % other 2.309 % of tau | fail
+chi +30 tau 1.0 it 1: xx=+0.00046 yy=-0.00006 zz=+0.00035 yz=+0.00000 xz=+0.50011 xy=+0.86601 | xy 0.001 % xz 0.023 % other 0.046 % of tau | PASS
+chi +30 tau 1.5 it 0: xx=+0.05590 yy=-0.00006 zz=+0.01156 yz=+0.00001 xz=+0.71451 xy=+1.29590 | xy 0.241 % xz 4.733 % other 3.727 % of tau | fail
+chi +30 tau 1.5 it 1: xx=+0.00232 yy=-0.00006 zz=+0.00174 yz=+0.00001 xz=+0.75000 xy=+1.29898 | xy 0.004 % xz 0.001 % other 0.155 % of tau | PASS
+chi +30 tau 1.5 it 2: xx=-0.00001 yy=-0.00006 zz=-0.00004 yz=+0.00001 xz=+0.74996 xy=+1.29905 | xy 0.001 % xz 0.005 % other 0.004 % of tau | PASS
+chi +30 tau 0.5 MODEL: xx=+0.00071 yy=-0.00005 zz=+0.00019 yz=+0.00003 xz=+0.24974 xy=+0.43302 | xy 0.001 % xz 0.104 % other 0.141 % of tau | PASS
+chi +30 tau 2.4 MODEL: xx=-0.00864 yy=-0.00006 zz=-0.00200 yz=+0.00000 xz=+1.20306 xy=+2.07858 | xy 0.006 % xz 0.255 % other 0.360 % of tau | PASS
+GATE_A calibrated points: PASS ; model check at tau 0.5 / 2.4: FAIL

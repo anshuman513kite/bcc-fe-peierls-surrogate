@@ -1,0 +1,4 @@
+round,chi_deg,tau_last_unmoved,tau_first_moved,tau_mid,dd_shift_dy,dd_shift_dz,dd_shift_angle_deg,shift_A,jumps,glide_plane,event,topcol_first_moved_b,topcol_last_unmoved_b,stability,nonconverged_below,pred_mean,pred_spread,z,inside_2sigma,rule,source
+1,-28,1.16,1.17,1.165,2.019,1.1657,60.0,2.3314,1.0,- (split core on a vertex column),easy -> split transition,1.545,1.196,yes (fmax 1.71e-08); yes (fmax 1.54e-08),,1.15805,0.00671,1.04,yes,D5,data/chi_small_m28.csv
+2,28,2.11,2.12,2.115,1.346,0.0,90.0,1.346,0.577,- (split core on a vertex column),easy -> split transition,1.803,1.225,yes (fmax 1.46e-08); yes (fmax 1.66e-08),,2.00861,0.00937,11.35,no,D5,data/chi_small_p28.csv;data/chi_small_p28_cont.csv
+3,-29,1.16,1.17,1.165,2.019,1.1657,60.0,2.3314,1.0,- (split core on a vertex column),easy -> split transition,1.542,1.196,yes (fmax 1.96e-08); yes (fmax 1.68e-08),,1.16677,0.0452,-0.04,yes,D5,data/chi_small_m29.csv

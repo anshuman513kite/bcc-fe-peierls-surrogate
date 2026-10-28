@@ -1,0 +1,52 @@
+{
+ "MLP ensemble (5 members)": {
+  "rmse": 0.022436795839318815,
+  "within_1sigma": 0.628099173553719,
+  "within_2sigma": 0.8760330578512396,
+  "ideal_1": 0.683,
+  "ideal_2": 0.954
+ },
+ "GP baseline": {
+  "rmse": 0.009687876318999951,
+  "within_1sigma": 0.9586776859504132,
+  "within_2sigma": 1.0,
+  "ideal_1": 0.683,
+  "ideal_2": 0.954
+ },
+ "active_learning": {
+  "spread": [
+   {
+    "final_n": 13,
+    "final_rmse": 0.01173027993970306,
+    "final_max_spread": 0.011108988116373515
+   },
+   {
+    "final_n": 13,
+    "final_rmse": 0.01781803461481377,
+    "final_max_spread": 0.071731650209914
+   },
+   {
+    "final_n": 12,
+    "final_rmse": 0.009385008340544015,
+    "final_max_spread": 0.016941886986059904
+   }
+  ],
+  "random": [
+   {
+    "final_n": 13,
+    "final_rmse": 0.01603502997024672,
+    "final_max_spread": 0.06406976994851273
+   },
+   {
+    "final_n": 12,
+    "final_rmse": 0.017500983120015374,
+    "final_max_spread": 0.016561775304747884
+   },
+   {
+    "final_n": 13,
+    "final_rmse": 0.016303954672700696,
+    "final_max_spread": 0.050774277521494264
+   }
+  ]
+ }
+}

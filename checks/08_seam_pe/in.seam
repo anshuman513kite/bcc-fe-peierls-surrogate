@@ -1,0 +1,21 @@
+# Seam check (Session 11): per-atom pair energy of atoms lying exactly on z = 0 of the 2x screw cell.
+# Single points: as read, then all atoms shifted by +0.5 A in z (rigid shift: physics unchanged, only the boundary bookkeeping).
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       ${datain}
+pair_style      eam/fs
+pair_coeff      * * ${pot} Fe
+compute         pea all pe/atom pair
+compute         sumpea all reduce sum c_pea
+group           seam id 24631 24983 25311 52723 53379 53681
+compute         seampe seam reduce sum c_pea
+thermo_style    custom step pe c_sumpea c_seampe fmax fnorm
+thermo_modify   format float %.10g
+run             0
+print           "AS_READ pe=$(pe:%.8f) sum_pea=$(c_sumpea:%.8f) seam6_pe=$(c_seampe:%.6f) fmax=$(fmax:%.3e)"
+write_dump      all custom as_read.pe id x y z c_pea fx fy fz modify sort id format float %.10g
+displace_atoms  all move 0 0 0.5 units box
+run             0
+print           "SHIFTED pe=$(pe:%.8f) sum_pea=$(c_sumpea:%.8f) seam6_pe=$(c_seampe:%.6f) fmax=$(fmax:%.3e)"
+write_dump      all custom shifted.pe id x y z c_pea fx fy fz modify sort id format float %.10g

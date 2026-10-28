@@ -1,0 +1,13 @@
+chi_deg,glide_plane,used_in_fit,tau_ours,tau_our_fit,residual,tau_chaussidon_fit,ratio_ours_theirs,source
+-30.0,(0 1 -1),no,1.165,1.17563,-0.01063,1.1504,1.0127,data/chi_small_m30.csv
+-28.0,(0 1 -1),no,1.165,1.17414,-0.00914,1.1455,1.017,live round 1
+-24.0,(0 1 -1),no,1.185,1.17545,0.00955,1.13998,1.0395,data/chi_small_m24.csv
+-18.0,(-110),yes,1.215,1.18828,0.02672,1.14215,1.0638,data/chi_small_m18.csv
+-12.0,(-110),yes,1.225,1.21486,0.01014,1.15702,1.0588,data/chi_small_m12.csv
+-6.0,(-110),yes,1.255,1.25673,-0.00173,1.18545,1.0587,data/chi_small_m6.csv
+0.0,(-110),yes,1.2875,1.31653,-0.02903,1.22912,1.0475,data/gateBp_small_np7.csv (Gate B'; DD bracket re-checked Session 12)
+6.0,(-110),yes,1.395,1.3984,-0.0034,1.29081,1.0807,data/chi_small_p6.csv
+12.0,(-110),yes,1.495,1.50874,-0.01374,1.37488,1.0874,data/chi_small_p12.csv
+18.0,(-110),yes,1.645,1.65772,-0.01272,1.4881,1.1054,data/chi_small_p18.csv
+24.0,(-110),yes,1.885,1.86196,0.02304,1.64124,1.1485,data/chi_small_p24.csv
+30.0,(-1 0 1),no,2.045,2.15049,-0.10549,1.85214,1.1041,data/chi_small_p30.csv

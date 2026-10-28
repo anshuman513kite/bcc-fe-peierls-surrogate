@@ -1,0 +1,108 @@
+LAMMPS (22 Jul 2025 - Update 6)
+  using 1 OpenMP thread(s) per MPI task
+# Gate A re-check (Session 12): read a slab whose box strain was set by tools/rebox.py, apply surface forces, relax,
+# and print the interior stress exactly as checks/04_pure_shear/in.block (same groups, same averaging, same minimiser).
+# Vars: tag datain exx ezz sxy
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+boundary        p s p
+read_data       ${datain}
+read_data       al_chi+28_tau2.4_it2.data
+Reading data file ...
+  triclinic box = (0 -0.005038004 0) to (24.713802 38.366076 28.071532) with tilt (0 0.56838304 0)
+  1 by 7 by 1 MPI processor grid
+  reading atoms ...
+  2400 atoms
+  read_data CPU = 0.013 seconds
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+variable        ymid equal $(0.5*(bound(all,ymin)+bound(all,ymax)))
+variable        ymid equal 19.180518927058514578
+variable        d110 equal v_a*sqrt(2)/2
+region          rtop block INF INF $(bound(all,ymax)-1.5*v_d110) INF INF INF units box
+region          rtop block INF INF 35.332534865634102061 INF INF INF units box
+region          rbot block INF INF INF $(bound(all,ymin)+1.5*v_d110) INF INF units box
+region          rbot block INF INF INF 3.0285029884829253177 INF INF units box
+region          rint block INF INF $(v_ymid-8) $(v_ymid+8) INF INF units box
+region          rint block INF INF 11.180518927058500367 $(v_ymid+8) INF INF units box
+region          rint block INF INF 11.180518927058500367 27.180518927058500367 INF INF units box
+group           top region rtop
+240 atoms in group top
+group           bot region rbot
+240 atoms in group bot
+group           int region rint
+960 atoms in group int
+variable        fx equal ${sxy}*lx*lz*0.0062415091/count(top)
+variable        fx equal 2.1281676686*lx*lz*0.0062415091/count(top)
+fix             ftop top addforce $(v_fx) 0.0 0.0
+fix             ftop top addforce 0.038396345229534500909 0.0 0.0
+fix             fbot bot addforce $(-v_fx) 0.0 0.0
+fix             fbot bot addforce -0.038396345229534500909 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+compute         sa all stress/atom NULL
+compute         ss int reduce sum c_sa[1] c_sa[2] c_sa[3] c_sa[4] c_sa[5] c_sa[6]
+variable        om equal ${a}^3/2*(1+${exx})*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+${exx})*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+-0.0005589294)*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+-0.0005589294)*(1+0.0034107498)*count(int)*1e4
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+min_style       cg
+minimize        1e-15 1e-15 20000 200000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 7 11 8
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.265 | 5.272 | 5.278 Mbytes
+   Step         PotEng          Fmax           Pxx            Pyy            Pzz            Pyz            Pxz            Pxy      
+         0  -9747.7396      0.05687999    -3672.414      -10679.244     -7599.3224     -8.2862755e-11 -16852.384     -5.2390645e-12
+       122  -9754.0971      7.184968e-07  -1288.161       0.25256295    -3087.1217     -0.11456338    -14460.634     -20070.752    
+Loop time of 0.314531 on 7 procs for 122 steps with 2400 atoms
+
+89.7% CPU use with 7 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -9747.73960376653  -9754.09713182727  -9754.09713182727
+  Force two-norm initial, final = 1.257385 1.9927213e-05
+  Force max component initial, final = 0.05687999 7.184968e-07
+  Final line search alpha, max atom move = 1 7.184968e-07
+  Iterations, force evaluations = 122 244
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.29136    | 0.29199    | 0.29317    |   0.1 | 92.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.013089   | 0.015639   | 0.01705    |   1.0 |  4.97
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.00022132 | 0.0005378  | 0.0013078  |   0.0 |  0.17
+Other   |            | 0.006361   |            |       |  2.02
+
+Nlocal:        342.857 ave         360 max         240 min
+Histogram: 1 0 0 0 0 0 0 0 0 6
+Nghost:           2304 ave        2655 max        1659 min
+Histogram: 2 0 0 0 0 0 0 0 4 1
+Neighs:        21771.4 ave       24604 max       16405 min
+Histogram: 1 0 0 2 0 0 0 0 0 4
+
+Total # of neighbors = 152400
+Ave neighs/atom = 63.5
+Neighbor list builds = 0
+Dangerous builds = 0
+print           "INFO ${tag} atoms=$(atoms) top=$(count(top)) bot=$(count(bot)) int=$(count(int)) lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f) xz=$(xz:%.6f) fx=$(v_fx:%.8f) fmax=$(fmax:%.2e)"
+INFO al_chi+28_tau2.4_it2 atoms=2400 top=240 bot=240 int=960 lx=24.713802 ly=38.368712 lz=28.071532 xz=0.568383 fx=0.03839635 fmax=7.18e-07
+print           "INTERIOR_GPa ${tag} sxx=$(c_ss[1]/v_om:%.6f) syy=$(c_ss[2]/v_om:%.6f) szz=$(c_ss[3]/v_om:%.6f) syz=$(c_ss[6]/v_om:%.6f) sxz=$(c_ss[5]/v_om:%.6f) sxy=$(c_ss[4]/v_om:%.6f)"
+INTERIOR_GPa al_chi+28_tau2.4_it2 sxx=-0.003347 syy=-0.000031 szz=-0.003304 syz=0.000019 sxz=1.126843 sxy=2.119137
+Total wall time: 0:00:00

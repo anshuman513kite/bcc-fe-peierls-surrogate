@@ -1,0 +1,286 @@
+LAMMPS (22 Jul 2025 - Update 6)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+# Static, unrelaxed bcc energy at chosen nearest-neighbour distances r (a = 2r/sqrt3),
+# to compare with the NIST EvsR.Fe.txt table for the same potential file.
+units           metal
+boundary        p p p
+atom_style      atomic
+variable        r index 2.40 2.44 2.48 2.4724
+label           loop
+variable        a equal 2.0*${r}/sqrt(3.0)
+variable        a equal 2.0*2.40/sqrt(3.0)
+lattice         bcc ${a}
+lattice         bcc 2.7712812921102
+Lattice spacing in x,y,z = 2.7712813 2.7712813 2.7712813
+region          box block 0 5 0 5 0 5
+create_box      1 box
+Created orthogonal box = (0 0 0) to (13.856406 13.856406 13.856406)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 250 atoms
+  using lattice units in orthogonal box = (0 0 0) to (13.856406 13.856406 13.856406)
+  create_atoms CPU = 0.000 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * potentials/MCM2011_eam.fs Fe
+thermo_style    custom pe press
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.5
+  ghost atom cutoff = 7.5
+  binsize = 3.75, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.402 | 3.402 | 3.402 Mbytes
+    PotEng         Press     
+-1027.3963      81229.996    
+Loop time of 9.27e-07 on 1 procs for 0 steps with 250 atoms
+
+107.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 9.27e-07   |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          21000 ave       21000 max       21000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 21000
+Ave neighs/atom = 84
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        e equal pe/atoms
+print           "EVSR r = ${r}  a = ${a}  E = $e  press = $(press)"
+EVSR r = 2.40  a = 2.7712812921102  E = -4.10958520614862  press = 81229.996076231182087
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+next            r
+jump            SELF loop
+variable        a equal 2.0*${r}/sqrt(3.0)
+variable        a equal 2.0*2.44/sqrt(3.0)
+lattice         bcc ${a}
+lattice         bcc 2.81746931364537
+Lattice spacing in x,y,z = 0.8920522 0.8920522 0.8920522
+region          box block 0 5 0 5 0 5
+create_box      1 box
+Created orthogonal box = (0 0 0) to (4.460261 4.460261 4.460261)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 250 atoms
+  using lattice units in orthogonal box = (0 0 0) to (4.460261 4.460261 4.460261)
+  create_atoms CPU = 0.000 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * potentials/MCM2011_eam.fs Fe
+thermo_style    custom pe press
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.8
+  ghost atom cutoff = 5.8
+  binsize = 2.9, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+WARNING: A per-atom density exceeded rhomax of EAM potential table - a linear extrapolation to the energy was made (src/MANYBODY/pair_eam.cpp:335)
+Per MPI rank memory allocation (min/avg/max) = 4.543 | 4.543 | 4.543 Mbytes
+    PotEng         Press     
+ 2403.4054      9606.5647    
+Loop time of 1.34e-06 on 1 procs for 0 steps with 250 atoms
+
+149.3% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.34e-06   |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          12441 ave       12441 max       12441 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         284500 ave      284500 max      284500 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 284500
+Ave neighs/atom = 1138
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        e equal pe/atoms
+print           "EVSR r = ${r}  a = ${a}  E = $e  press = $(press)"
+EVSR r = 2.44  a = 2.81746931364537  E = 9.61362149015173  press = 9606.5647222277348192
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+next            r
+jump            SELF loop
+variable        a equal 2.0*${r}/sqrt(3.0)
+variable        a equal 2.0*2.48/sqrt(3.0)
+lattice         bcc ${a}
+lattice         bcc 2.86365733518054
+Lattice spacing in x,y,z = 0.8872302 0.8872302 0.8872302
+region          box block 0 5 0 5 0 5
+create_box      1 box
+Created orthogonal box = (0 0 0) to (4.436151 4.436151 4.436151)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 250 atoms
+  using lattice units in orthogonal box = (0 0 0) to (4.436151 4.436151 4.436151)
+  create_atoms CPU = 0.000 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * potentials/MCM2011_eam.fs Fe
+thermo_style    custom pe press
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.8
+  ghost atom cutoff = 5.8
+  binsize = 2.9, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+WARNING: A per-atom density exceeded rhomax of EAM potential table - a linear extrapolation to the energy was made (src/MANYBODY/pair_eam.cpp:335)
+Per MPI rank memory allocation (min/avg/max) = 4.543 | 4.543 | 4.543 Mbytes
+    PotEng         Press     
+ 2459.4307      9969.9922    
+Loop time of 8.47e-07 on 1 procs for 0 steps with 250 atoms
+
+236.1% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 8.47e-07   |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          12441 ave       12441 max       12441 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         284500 ave      284500 max      284500 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 284500
+Ave neighs/atom = 1138
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        e equal pe/atoms
+print           "EVSR r = ${r}  a = ${a}  E = $e  press = $(press)"
+EVSR r = 2.48  a = 2.86365733518054  E = 9.83772278588818  press = 9969.9922160412952508
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+next            r
+jump            SELF loop
+variable        a equal 2.0*${r}/sqrt(3.0)
+variable        a equal 2.0*2.4724/sqrt(3.0)
+lattice         bcc ${a}
+lattice         bcc 2.85488161108886
+Lattice spacing in x,y,z = 0.88813837 0.88813837 0.88813837
+region          box block 0 5 0 5 0 5
+create_box      1 box
+Created orthogonal box = (0 0 0) to (4.4406918 4.4406918 4.4406918)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 250 atoms
+  using lattice units in orthogonal box = (0 0 0) to (4.4406918 4.4406918 4.4406918)
+  create_atoms CPU = 0.000 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * potentials/MCM2011_eam.fs Fe
+thermo_style    custom pe press
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.8
+  ghost atom cutoff = 5.8
+  binsize = 2.9, bins = 2 2 2
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+WARNING: A per-atom density exceeded rhomax of EAM potential table - a linear extrapolation to the energy was made (src/MANYBODY/pair_eam.cpp:335)
+Per MPI rank memory allocation (min/avg/max) = 4.543 | 4.543 | 4.543 Mbytes
+    PotEng         Press     
+ 2448.766       9900.372     
+Loop time of 1.401e-06 on 1 procs for 0 steps with 250 atoms
+
+285.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.401e-06  |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          12441 ave       12441 max       12441 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         284500 ave      284500 max      284500 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 284500
+Ave neighs/atom = 1138
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        e equal pe/atoms
+print           "EVSR r = ${r}  a = ${a}  E = $e  press = $(press)"
+EVSR r = 2.4724  a = 2.85488161108886  E = 9.79506413623932  press = 9900.3720377049157833
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+next            r
+jump            SELF loop
+Total wall time: 0:00:00

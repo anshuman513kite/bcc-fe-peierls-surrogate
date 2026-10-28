@@ -1,0 +1,11 @@
+# Per-atom energy of a screw-cell configuration (Mendelev 2003 #2), for tools/track_core.py. No minimisation.
+# Usage (from a sim folder): lmp -in ../../tools/in.pe_dump -var datain <file.data> -var dumpout <file.pe> -screen none
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       ${datain}
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+compute         pea all pe/atom
+run             0
+write_dump      all custom ${dumpout} id x y z c_pea modify sort id format float %.10g

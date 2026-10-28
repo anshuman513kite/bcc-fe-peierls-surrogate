@@ -1,0 +1,584 @@
+LAMMPS (22 Jul 2025 - Update 6)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+# Static 0 K elastic constants C11, C12, C44 of bcc Fe (Mendelev 2003 EAM/FS, Fe_mm.eam.fs).
+# Cell: relaxed 5x5x5 bcc (250 atoms), x=[100] y=[010] z=[001], from checks/01_lattice.
+# Usage: lmp -in in.elastic -var e 0.001
+#
+# Strain definitions:
+#   C11, C12: normal strain eps_xx = +-e  (lx -> lx*(1+-e)).
+#   C44:      tilt xy = +-e*ly, i.e. ENGINEERING shear strain gamma_xy = 2*eps_xy = +-e.
+#             Voigt: sigma_xy = C44*gamma_xy, so C44 = -(Pxy(+e)-Pxy(-e))/(2e).
+# Sign convention: LAMMPS reports pressure P_ij = -sigma_ij (stress, tension positive), in bar.
+#   C11 = -(Pxx(+e)-Pxx(-e))/(2e),  C12 = -(Pyy(+e)-Pyy(-e))/(2e),  1 GPa = 10000 bar.
+
+variable  ep   equal  ${e}
+variable  ep   equal  0.005
+variable  em   equal  -${e}
+variable  em   equal  -0.005
+
+variable  mode string x
+variable  tag  string x_plus
+variable  e    delete
+variable  e    equal ${ep}
+variable  e    equal 0.005
+include   strain.mod
+# One strained state. Needs: ${mode} (x or xy), ${e} (signed strain), ${tag}.
+# Starts fresh from the relaxed 250-atom cell of checks/01_lattice.
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+boundary        p p p
+atom_style      atomic
+read_data       ../01_lattice/relaxed.data
+Reading data file ...
+  orthogonal box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  250 atoms
+  reading velocities ...
+  250 velocities
+  read_data CPU = 0.002 seconds
+change_box      all triclinic
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (0 0 0)
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+thermo_style    custom step pe pxx pyy pzz pxy pxz pyz
+thermo_modify   format float %.10g
+
+variable        L0 equal lx
+variable        s  equal 1.0+${e}
+variable        s  equal 1.0+0.005
+variable        t  equal ${e}*ly
+variable        t  equal 0.005*ly
+if "${mode} == x"  then "change_box all x scale ${s} remap units box"
+change_box all x scale ${s} remap units box
+change_box all x scale 1.005 remap units box
+Changing box ...
+  triclinic box = (-0.036503711 -0.00081214997 -0.00081214997) to (14.311504 14.275812 14.275812) with tilt (0 0 0)
+# Shear: tilt xy = e*ly, so the ENGINEERING shear strain gamma_xy = e (tensor eps_xy = e/2)
+if "${mode} == xy" then "change_box all xy final ${t} remap units box"
+
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.402 | 3.402 | 3.402 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.553287 -12244.68518 -7189.356539 -7189.356539 -5.299160745e-11 -5.858745352e-11 -1.556071456e-10
+Loop time of 7.94e-07 on 1 procs for 0 steps with 250 atoms
+
+125.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.94e-07   |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        E1 equal pe
+variable        Ebefore equal ${E1}
+variable        Ebefore equal -1030.55328737323
+min_style       cg
+minimize        1e-12 1e-12 10000 100000
+Per MPI rank memory allocation (min/avg/max) = 4.527 | 4.527 | 4.527 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.553287 -12244.68518 -7189.356539 -7189.356539 -6.85626574e-11 -5.858745352e-11 -1.556071456e-10
+         1  -1030.553287 -12244.68518 -7189.356539 -7189.356539 -4.340629756e-11 -7.892775528e-11 -1.261852361e-10
+Loop time of 0.00130328 on 1 procs for 1 steps with 250 atoms
+
+75.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -1030.55328737323  -1030.55328737323  -1030.55328737321
+  Force two-norm initial, final = 6.3707298e-13 1.6257001e-13
+  Force max component initial, final = 6.6613381e-14 2.4241026e-14
+  Final line search alpha, max atom move = 1 2.4241026e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.001262   | 0.001262   | 0.001262   |   0.0 | 96.83
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 2.1492e-05 | 2.1492e-05 | 2.1492e-05 |   0.0 |  1.65
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.976e-05  |            |       |  1.52
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        dE equal pe-${Ebefore}
+variable        dE equal pe--1030.55328737323
+variable        fmax equal fmax
+print           "STATE ${tag} e=${e} lx=$(lx:%.10f) ly=$(ly:%.10f) xy=$(xy:%.10f) dE_min=$(v_dE:%.3e) eV fmax=$(v_fmax:%.3e) pxx=$(pxx:%.6f) pyy=$(pyy:%.6f) pzz=$(pzz:%.6f) pxy=$(pxy:%.6f) bar"
+STATE x_plus e=0.005 lx=14.3480074214 ly=14.2766242999 xy=0.0000000000 dE_min=2.069e-11 eV fmax=2.424e-14 pxx=-12244.685177 pyy=-7189.356539 pzz=-7189.356539 pxy=-0.000000 bar
+variable  pxx_p equal $(pxx)
+variable  pxx_p equal -12244.685176553997735
+variable  pyy_p equal $(pyy)
+variable  pyy_p equal -7189.3565392409855122
+
+variable  tag  string x_minus
+variable  e    delete
+variable  e    equal ${em}
+variable  e    equal -0.005
+include   strain.mod
+# One strained state. Needs: ${mode} (x or xy), ${e} (signed strain), ${tag}.
+# Starts fresh from the relaxed 250-atom cell of checks/01_lattice.
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+boundary        p p p
+atom_style      atomic
+read_data       ../01_lattice/relaxed.data
+Reading data file ...
+  orthogonal box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  250 atoms
+  reading velocities ...
+  250 velocities
+  read_data CPU = 0.002 seconds
+change_box      all triclinic
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (0 0 0)
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+thermo_style    custom step pe pxx pyy pzz pxy pxz pyz
+thermo_modify   format float %.10g
+
+variable        L0 equal lx
+variable        s  equal 1.0+${e}
+variable        s  equal 1.0+-0.005
+variable        t  equal ${e}*ly
+variable        t  equal -0.005*ly
+if "${mode} == x"  then "change_box all x scale ${s} remap units box"
+change_box all x scale ${s} remap units box
+change_box all x scale 0.995 remap units box
+Changing box ...
+  triclinic box = (0.034879411 -0.00081214997 -0.00081214997) to (14.240121 14.275812 14.275812) with tilt (0 0 0)
+# Shear: tilt xy = e*ly, so the ENGINEERING shear strain gamma_xy = e (tensor eps_xy = e/2)
+if "${mode} == xy" then "change_box all xy final ${t} remap units box"
+
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.402 | 3.402 | 3.402 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.553766 12089.15265 7311.16922 7311.16922 -1.572658299e-11 7.986738884e-11 1.022743858e-10
+Loop time of 7.7e-07 on 1 procs for 0 steps with 250 atoms
+
+129.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.7e-07    |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        E1 equal pe
+variable        Ebefore equal ${E1}
+variable        Ebefore equal -1030.55376615023
+min_style       cg
+minimize        1e-12 1e-12 10000 100000
+Per MPI rank memory allocation (min/avg/max) = 4.527 | 4.527 | 4.527 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.553766 12089.15265 7311.16922 7311.16922 -1.572658299e-11 7.986738884e-11 1.022743858e-10
+         1  -1030.553766 12089.15265 7311.16922 7311.16922 3.149900278e-11 1.527997414e-11 -1.632243743e-10
+Loop time of 0.00138184 on 1 procs for 1 steps with 250 atoms
+
+1538.7% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -1030.55376615023  -1030.55376615023  -1030.55376615023
+  Force two-norm initial, final = 5.3809348e-13 1.066741e-13
+  Force max component initial, final = 3.8379022e-14 1.7614382e-14
+  Final line search alpha, max atom move = 1 1.7614382e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0013386  | 0.0013386  | 0.0013386  |   0.0 | 96.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 2.1619e-05 | 2.1619e-05 | 2.1619e-05 |   0.0 |  1.56
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 2.158e-05  |            |       |  1.56
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        dE equal pe-${Ebefore}
+variable        dE equal pe--1030.55376615023
+variable        fmax equal fmax
+print           "STATE ${tag} e=${e} lx=$(lx:%.10f) ly=$(ly:%.10f) xy=$(xy:%.10f) dE_min=$(v_dE:%.3e) eV fmax=$(v_fmax:%.3e) pxx=$(pxx:%.6f) pyy=$(pyy:%.6f) pzz=$(pzz:%.6f) pxy=$(pxy:%.6f) bar"
+STATE x_minus e=-0.005 lx=14.2052411784 ly=14.2766242999 xy=0.0000000000 dE_min=2.956e-12 eV fmax=1.761e-14 pxx=12089.152651 pyy=7311.169220 pzz=7311.169220 pxy=0.000000 bar
+variable  pxx_m equal $(pxx)
+variable  pxx_m equal 12089.152651110620354
+variable  pyy_m equal $(pyy)
+variable  pyy_m equal 7311.1692204593009592
+
+variable  mode delete
+variable  mode string xy
+variable  tag  string xy_plus
+variable  e    delete
+variable  e    equal ${ep}
+variable  e    equal 0.005
+include   strain.mod
+# One strained state. Needs: ${mode} (x or xy), ${e} (signed strain), ${tag}.
+# Starts fresh from the relaxed 250-atom cell of checks/01_lattice.
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+boundary        p p p
+atom_style      atomic
+read_data       ../01_lattice/relaxed.data
+Reading data file ...
+  orthogonal box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  250 atoms
+  reading velocities ...
+  250 velocities
+  read_data CPU = 0.002 seconds
+change_box      all triclinic
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (0 0 0)
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+thermo_style    custom step pe pxx pyy pzz pxy pxz pyz
+thermo_modify   format float %.10g
+
+variable        L0 equal lx
+variable        s  equal 1.0+${e}
+variable        s  equal 1.0+0.005
+variable        t  equal ${e}*ly
+variable        t  equal 0.005*ly
+if "${mode} == x"  then "change_box all x scale ${s} remap units box"
+# Shear: tilt xy = e*ly, so the ENGINEERING shear strain gamma_xy = e (tensor eps_xy = e/2)
+if "${mode} == xy" then "change_box all xy final ${t} remap units box"
+change_box all xy final ${t} remap units box
+change_box all xy final 0.0713831214996647 remap units box
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (0.071383121 0 0)
+
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.402 | 3.402 | 3.402 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.582432 -33.35781157 12.33117742 -1.901560931 -5801.098406 -1.82395851e-10 -3.483013242e-10
+Loop time of 5.8e-07 on 1 procs for 0 steps with 250 atoms
+
+172.4% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.8e-07    |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        E1 equal pe
+variable        Ebefore equal ${E1}
+variable        Ebefore equal -1030.58243193622
+min_style       cg
+minimize        1e-12 1e-12 10000 100000
+Per MPI rank memory allocation (min/avg/max) = 4.527 | 4.527 | 4.527 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.582432 -33.35781157 12.33117742 -1.901560931 -5801.098406 -1.393613616e-10 -3.639502294e-10
+         1  -1030.582432 -33.35781157 12.33117742 -1.901560931 -5801.098406 -7.59815763e-11 -3.056004152e-10
+Loop time of 0.00106142 on 1 procs for 1 steps with 250 atoms
+
+99.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -1030.58243193622  -1030.58243193622  -1030.58243193622
+  Force two-norm initial, final = 6.2077043e-13 1.2724829e-13
+  Force max component initial, final = 1.0127316e-13 1.8200719e-14
+  Final line search alpha, max atom move = 1 1.8200719e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0010276  | 0.0010276  | 0.0010276  |   0.0 | 96.81
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.6219e-05 | 1.6219e-05 | 1.6219e-05 |   0.0 |  1.53
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.764e-05  |            |       |  1.66
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        dE equal pe-${Ebefore}
+variable        dE equal pe--1030.58243193622
+variable        fmax equal fmax
+print           "STATE ${tag} e=${e} lx=$(lx:%.10f) ly=$(ly:%.10f) xy=$(xy:%.10f) dE_min=$(v_dE:%.3e) eV fmax=$(v_fmax:%.3e) pxx=$(pxx:%.6f) pyy=$(pyy:%.6f) pzz=$(pzz:%.6f) pxy=$(pxy:%.6f) bar"
+STATE xy_plus e=0.005 lx=14.2766242999 ly=14.2766242999 xy=0.0713831215 dE_min=2.956e-12 eV fmax=1.820e-14 pxx=-33.357812 pyy=12.331177 pzz=-1.901561 pxy=-5801.098406 bar
+variable  pxy_p equal $(pxy)
+variable  pxy_p equal -5801.098405702803575
+
+variable  tag  string xy_minus
+variable  e    delete
+variable  e    equal ${em}
+variable  e    equal -0.005
+include   strain.mod
+# One strained state. Needs: ${mode} (x or xy), ${e} (signed strain), ${tag}.
+# Starts fresh from the relaxed 250-atom cell of checks/01_lattice.
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+boundary        p p p
+atom_style      atomic
+read_data       ../01_lattice/relaxed.data
+Reading data file ...
+  orthogonal box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  250 atoms
+  reading velocities ...
+  250 velocities
+  read_data CPU = 0.001 seconds
+change_box      all triclinic
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (0 0 0)
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+thermo_style    custom step pe pxx pyy pzz pxy pxz pyz
+thermo_modify   format float %.10g
+
+variable        L0 equal lx
+variable        s  equal 1.0+${e}
+variable        s  equal 1.0+-0.005
+variable        t  equal ${e}*ly
+variable        t  equal -0.005*ly
+if "${mode} == x"  then "change_box all x scale ${s} remap units box"
+# Shear: tilt xy = e*ly, so the ENGINEERING shear strain gamma_xy = e (tensor eps_xy = e/2)
+if "${mode} == xy" then "change_box all xy final ${t} remap units box"
+change_box all xy final ${t} remap units box
+change_box all xy final -0.0713831214996647 remap units box
+Changing box ...
+  triclinic box = (-0.00081214997 -0.00081214997 -0.00081214997) to (14.275812 14.275812 14.275812) with tilt (-0.071383121 0 0)
+
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.402 | 3.402 | 3.402 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.582432 -33.35781157 12.33117742 -1.901560931 5801.098406 -8.73498125e-11 -4.096418998e-10
+Loop time of 6.64e-07 on 1 procs for 0 steps with 250 atoms
+
+150.6% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 6.64e-07   |            |       |100.00
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        E1 equal pe
+variable        Ebefore equal ${E1}
+variable        Ebefore equal -1030.58243193622
+min_style       cg
+minimize        1e-12 1e-12 10000 100000
+Per MPI rank memory allocation (min/avg/max) = 4.527 | 4.527 | 4.527 Mbytes
+   Step         PotEng          Pxx            Pyy            Pzz            Pxy            Pxz            Pyz      
+         0  -1030.582432 -33.35781157 12.33117742 -1.901560931 5801.098406 -3.416368811e-11 -3.827534626e-10
+         1  -1030.582432 -33.35781157 12.33117742 -1.901560931 5801.098406 -2.829343839e-11 -3.473012996e-10
+Loop time of 0.000975488 on 1 procs for 1 steps with 250 atoms
+
+99.8% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -1030.58243193622  -1030.58243193622  -1030.58243193622
+  Force two-norm initial, final = 7.6787191e-13 1.4956798e-13
+  Force max component initial, final = 1.3605783e-13 2.1177504e-14
+  Final line search alpha, max atom move = 1 2.1177504e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0009441  | 0.0009441  | 0.0009441  |   0.0 | 96.78
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.4342e-05 | 1.4342e-05 | 1.4342e-05 |   0.0 |  1.47
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.704e-05  |            |       |  1.75
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        dE equal pe-${Ebefore}
+variable        dE equal pe--1030.58243193622
+variable        fmax equal fmax
+print           "STATE ${tag} e=${e} lx=$(lx:%.10f) ly=$(ly:%.10f) xy=$(xy:%.10f) dE_min=$(v_dE:%.3e) eV fmax=$(v_fmax:%.3e) pxx=$(pxx:%.6f) pyy=$(pyy:%.6f) pzz=$(pzz:%.6f) pxy=$(pxy:%.6f) bar"
+STATE xy_minus e=-0.005 lx=14.2766242999 ly=14.2766242999 xy=-0.0713831215 dE_min=3.638e-12 eV fmax=2.118e-14 pxx=-33.357812 pyy=12.331177 pzz=-1.901561 pxy=5801.098406 bar
+variable  pxy_m equal $(pxy)
+variable  pxy_m equal 5801.0984057028126699
+
+variable  C11 equal -(v_pxx_p-v_pxx_m)/(2*v_ep)/1e4
+variable  C12 equal -(v_pyy_p-v_pyy_m)/(2*v_ep)/1e4
+variable  C44 equal -(v_pxy_p-v_pxy_m)/(2*v_ep)/1e4
+print     "RESULT e=${ep} C11=$(v_C11:%.4f) C12=$(v_C12:%.4f) C44=$(v_C44:%.4f) GPa"
+RESULT e=0.005 C11=243.3384 C12=145.0053 C44=116.0220 GPa
+Total wall time: 0:00:00

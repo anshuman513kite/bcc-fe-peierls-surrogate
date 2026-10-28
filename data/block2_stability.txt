@@ -1,0 +1,4 @@
+STABILITY chi_small_p28_cont_last_seed1 tau=2.160 chi=+28 np=7 seed=1 stop='force tolerance' it=304 fmax=1.51e-08 fnorm=9.99e-07 before=(+1.346,-0.000) after=(+2.019,+1.166) topcol_after=(+0.67,+1.17,1.804b) returned=no
+STABILITY chi_small_p28_cont_last_seed2 tau=2.160 chi=+28 np=7 seed=2 stop='force tolerance' it=249 fmax=1.63e-08 fnorm=9.82e-07 before=(+1.346,-0.000) after=(+2.019,+1.166) topcol_after=(+0.67,+1.17,1.804b) returned=no
+STABILITY chi_small_0_last_seed1 tau=1.310 chi=+0 np=7 seed=1 stop='force tolerance' it=306 fmax=1.81e-08 fnorm=9.54e-07 before=(-0.000,-0.000) after=(-0.000,-0.000) topcol_after=(+0.67,+1.17,1.210b) returned=yes
+STABILITY chi_small_0_last_seed2 tau=1.310 chi=+0 np=7 seed=2 stop='force tolerance' it=238 fmax=1.83e-08 fnorm=9.92e-07 before=(-0.000,-0.000) after=(-0.000,-0.000) topcol_after=(+0.67,+1.17,1.210b) returned=yes

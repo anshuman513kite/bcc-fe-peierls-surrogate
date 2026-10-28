@@ -1,0 +1,14 @@
+# Gate A re-check (Session 12): build the unstrained perfect slab of checks/04_pure_shear/in.block (geom = slab) and write it.
+# No change_box: the strained boxes are written by tools/rebox.py (affine in x, z; y untouched).
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+boundary        p s p
+lattice         bcc ${a} orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+region          box prism 0 $(5*v_a*sqrt(3)) -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 $(5*v_a*sqrt(3)) -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+create_box      1 box
+create_atoms    1 region xtal
+mass            1 55.845
+write_data      slab0.data
+print           "BUILD atoms=$(atoms) lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f)"

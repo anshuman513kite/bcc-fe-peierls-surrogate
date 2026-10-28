@@ -1,0 +1,133 @@
+LAMMPS (22 Jul 2025 - Update 6)
+  using 1 OpenMP thread(s) per MPI task
+# Elastic response of perfect bcc Fe (Mendelev 2003 #2) to an extra xz box tilt, in the screw-cell frame.
+# Frame: x = [111], y = [-110], z = [-1-12]; fully periodic; a = 2.8553 A.
+# Box set in Angstrom from the true repeats a*sqrt3, a*sqrt2, a*sqrt6 (as in sims/01_screw_cell/build.py): 5 x 10 x 4.
+# (LAMMPS 'units lattice' spacing along [-1-12] is 2/3 of the repeat, which gave a non-periodic, pre-stressed box.)
+# A tilt xz = gamma*Lz gives u_x = gamma*z, i.e. engineering shear strain gamma_xz = gamma.
+# Sign convention: LAMMPS pressure P_ij = -sigma_ij (stress, tension positive), in bar; 1 GPa = 10000 bar.
+# Usage: lmp -in in.tilt -var gamma 0.005
+units           metal
+boundary        p p p
+atom_style      atomic
+lattice         bcc 2.8553 orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+Lattice spacing in x,y,z = 4.9455247 4.038004 4.6626854
+variable        a equal 2.8553
+region          box prism 0 $(5*v_a*sqrt(3)) 0 $(10*v_a*sqrt(2)) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 0 $(10*v_a*sqrt(2)) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 0 40.380039846438990025 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 0 40.380039846438990025 0 27.976112250275232185 0 0 0 units box
+create_box      1 box
+Created triclinic box = (0 0 0) to (24.727623 40.38004 27.976112) with tilt (0 0 0)
+  1 by 7 by 1 MPI processor grid
+create_atoms    1 box
+Created 2400 atoms
+  using lattice units in triclinic box = (0 0 0) to (24.727623 40.38004 27.976112) with tilt (0 0 0)
+  create_atoms CPU = 0.001 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+variable        Lz equal lz
+compute         dist all pair/local dist
+compute         dmin all reduce min c_dist inputs local
+thermo_style    custom step pe c_dmin
+run             0
+WARNING: No fixes with time integration, atoms won't move
+For more information see https://docs.lammps.org/err0028 (src/verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 7 12 8
+  2 neighbor lists, perpetual/occasional/extra = 1 1 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+  (2) compute pair/local, occasional, copy from (1)
+      attributes: half, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 3.39 | 3.4 | 3.405 Mbytes
+   Step         PotEng         c_dmin    
+         0  -9893.8442      2.4727623    
+Loop time of 8.26014e-06 on 7 procs for 0 steps with 2400 atoms
+
+34.6% CPU use with 7 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 8.26e-06   |            |       |100.00
+
+Nlocal:        342.857 ave         360 max         240 min
+Histogram: 1 0 0 0 0 0 0 0 0 6
+Nghost:        2592.43 ave        2817 max        2535 min
+Histogram: 5 0 0 0 1 0 0 0 0 1
+Neighs:        23314.3 ave       24639 max       16794 min
+Histogram: 1 0 0 0 0 0 0 0 1 5
+
+Total # of neighbors = 163200
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+print           "BOX lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f) atoms=$(atoms) (expected 2*Lx*Ly*Lz/a^3 = $(2*lx*ly*lz/v_a^3:%.1f)) dmin=$(c_dmin:%.4f) (expected a*sqrt3/2 = $(v_a*sqrt(3)/2:%.4f))"
+BOX lx=24.727623 ly=40.380040 lz=27.976112 atoms=2400 (expected 2*Lx*Ly*Lz/a^3 = 2400.0) dmin=2.4728 (expected a*sqrt3/2 = 2.4728)
+change_box      all xz final $(v_gamma*v_Lz) remap units box
+change_box      all xz final 0.13988056125137601771 remap units box
+Changing box ...
+  triclinic box = (0 0 0) to (24.727623 40.38004 27.976112) with tilt (0 0.13988056 0)
+min_style       cg
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+thermo_modify   format float %.10g
+minimize        1e-15 1e-15 10000 100000
+Per MPI rank memory allocation (min/avg/max) = 4.973 | 5.048 | 5.065 Mbytes
+   Step         PotEng          Fmax           Pxx            Pyy            Pzz            Pyz            Pxz            Pxy      
+         0  -9893.688368 1.778022174e-13 18.90468205 -1539.311802 1593.430852 1.226677995e-10 -3577.259382 7.091095388e-11
+         1  -9893.688368 6.701583732e-14 18.90468205 -1539.311802 1593.430852 1.83390398e-10 -3577.259382 1.275582101e-10
+Loop time of 0.0262554 on 7 procs for 1 steps with 2400 atoms
+
+55.0% CPU use with 7 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -9893.68836783687  -9893.68836783687  -9893.68836783687
+  Force two-norm initial, final = 2.451493e-12 1.2346789e-12
+  Force max component initial, final = 1.7780222e-13 6.7015837e-14
+  Final line search alpha, max atom move = 1 6.7015837e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.022075   | 0.022692   | 0.024628   |   0.6 | 86.43
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0014672  | 0.0032748  | 0.0040522  |   1.6 | 12.47
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0002881  |            |       |  1.10
+
+Nlocal:        342.857 ave         360 max         240 min
+Histogram: 1 0 0 0 0 0 0 0 0 6
+Nghost:        2592.43 ave        2817 max        2535 min
+Histogram: 5 0 0 0 1 0 0 0 0 1
+Neighs:        23314.3 ave       24639 max       16794 min
+Histogram: 1 0 0 0 0 0 0 0 1 5
+
+Total # of neighbors = 163200
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+print           "STRESS_GPa gamma=${gamma} xz=$(xz:%.8f) sxx=$(-pxx/1e4:%.6f) syy=$(-pyy/1e4:%.6f) szz=$(-pzz/1e4:%.6f) syz=$(-pyz/1e4:%.6f) sxz=$(-pxz/1e4:%.6f) sxy=$(-pxy/1e4:%.6f) fmax=$(fmax:%.2e)"
+STRESS_GPa gamma=0.005 xz=0.13988056 sxx=-0.001890 syy=0.153931 szz=-0.159343 syz=-0.000000 sxz=0.357726 sxy=-0.000000 fmax=6.70e-14
+Total wall time: 0:00:00

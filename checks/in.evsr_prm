@@ -1,0 +1,18 @@
+# Static, unrelaxed bcc energy at nearest-neighbour distance r (a = 2r/sqrt3), one run per r:
+#   lmp -in checks/in.evsr_prm -var r 2.44
+# Compared with the NIST EvsR.Fe.txt table for the same potential file.
+units           metal
+boundary        p p p
+atom_style      atomic
+variable        a equal 2.0*${r}/sqrt(3.0)
+lattice         bcc ${a}
+region          box block 0 5 0 5 0 5
+create_box      1 box
+create_atoms    1 box
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * potentials/MCM2011_eam.fs Fe
+thermo_style    custom pe press
+run             0
+variable        epa equal pe/atoms
+print           "EVSR r = ${r}  a = ${a}  E = ${epa}"

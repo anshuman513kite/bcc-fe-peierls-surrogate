@@ -1,0 +1,31 @@
+# Gate A re-check (Session 12): read a slab whose box strain was set by tools/rebox.py, apply surface forces, relax,
+# and print the interior stress exactly as checks/04_pure_shear/in.block (same groups, same averaging, same minimiser).
+# Vars: tag datain exx ezz sxy
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+boundary        p s p
+read_data       ${datain}
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+variable        ymid equal $(0.5*(bound(all,ymin)+bound(all,ymax)))
+variable        d110 equal v_a*sqrt(2)/2
+region          rtop block INF INF $(bound(all,ymax)-1.5*v_d110) INF INF INF units box
+region          rbot block INF INF INF $(bound(all,ymin)+1.5*v_d110) INF INF units box
+region          rint block INF INF $(v_ymid-8) $(v_ymid+8) INF INF units box
+group           top region rtop
+group           bot region rbot
+group           int region rint
+variable        fx equal ${sxy}*lx*lz*0.0062415091/count(top)
+fix             ftop top addforce $(v_fx) 0.0 0.0
+fix             fbot bot addforce $(-v_fx) 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+compute         sa all stress/atom NULL
+compute         ss int reduce sum c_sa[1] c_sa[2] c_sa[3] c_sa[4] c_sa[5] c_sa[6]
+variable        om equal ${a}^3/2*(1+${exx})*(1+${ezz})*count(int)*1e4
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+min_style       cg
+minimize        1e-15 1e-15 20000 200000
+print           "INFO ${tag} atoms=$(atoms) top=$(count(top)) bot=$(count(bot)) int=$(count(int)) lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f) xz=$(xz:%.6f) fx=$(v_fx:%.8f) fmax=$(fmax:%.2e)"
+print           "INTERIOR_GPa ${tag} sxx=$(c_ss[1]/v_om:%.6f) syy=$(c_ss[2]/v_om:%.6f) szz=$(c_ss[3]/v_om:%.6f) syz=$(c_ss[6]/v_om:%.6f) sxz=$(c_ss[5]/v_om:%.6f) sxy=$(c_ss[4]/v_om:%.6f)"

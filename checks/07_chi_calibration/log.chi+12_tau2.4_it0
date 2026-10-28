@@ -1,0 +1,146 @@
+LAMMPS (22 Jul 2025 - Update 6)
+  using 1 OpenMP thread(s) per MPI task
+# Perfect bcc Fe (Mendelev 2003 #2) in the screw frame x = [111], y = [-110], z = [-1-12], under a homogeneous box strain.
+# Box from the true repeats a*sqrt3 x a*sqrt2 x a*sqrt6 (5 x 10 x 4), as checks/03_tilt_xz. a = 2.8553 A.
+# geom = block: fully periodic.  geom = slab: y non-periodic (free faces, shrink-wrapped), optional surface forces.
+# Strain (engineering shears): stretches first (x, y, z scale 1+eps), then tilts xy = gxy*Ly, xz = gxz*Lz, yz = gyz*Lz.
+# Slab surface forces: +fx on the top 2 (-110) planes, -fx on the bottom 2, fx = sxy*Lx*Lz/N_slab (fix_modify energy yes).
+# Stress: block -> global pressure; both -> interior average of stress/atom (|y - ymid| < 8 A), sigma = sum/(N*Omega),
+#   Omega = (a^3/2)(1+exx)(1+eyy)(1+ezz) (eyy of the slab is not imposed: Omega uses the imposed eyy = 0, error <= 0.3 %).
+# Sign convention: LAMMPS pressure P_ij = -sigma_ij; stress/atom summed / volume = sigma (tension positive). Output in GPa.
+# Vars: geom tag exx eyy ezz gyz gxz gxy sxy
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+if "${geom} == block" then "boundary p p p" else "boundary p s p"
+boundary p s p
+lattice         bcc ${a} orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+lattice         bcc 2.8553 orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+Lattice spacing in x,y,z = 4.9455247 4.038004 4.6626854
+region          box prism 0 $(5*v_a*sqrt(3)) -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 45.380039846438990025 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 45.380039846438990025 0 27.976112250275232185 0 0 0 units box
+region          xtal prism 0 $(5*v_a*sqrt(3)) -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 40.379039846438992356 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 40.379039846438992356 0 27.976112250275232185 0 0 0 units box
+if "${geom} == block" then "region box delete" "region box prism 0 $(5*v_a*sqrt(3)) 0 $(10*v_a*sqrt(2)) 0 $(4*v_a*sqrt(6)) 0 0 0 units box"
+create_box      1 box
+Created triclinic box = (0 -5 0) to (24.727623 45.38004 27.976112) with tilt (0 0 0)
+  1 by 7 by 1 MPI processor grid
+create_atoms    1 region xtal
+Created 2400 atoms
+  using lattice units in triclinic box = (0 -5.005038 0) to (24.727623 45.385078 27.976112) with tilt (0 0 0)
+  create_atoms CPU = 0.005 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+variable        ymid equal $(0.5*(bound(all,ymin)+bound(all,ymax)))
+variable        ymid equal 19.18051892705851813
+variable        d110 equal v_a*sqrt(2)/2
+region          rtop block INF INF $(bound(all,ymax)-1.5*v_d110) INF INF INF units box
+region          rtop block INF INF 35.332534865634109167 INF INF INF units box
+region          rbot block INF INF INF $(bound(all,ymin)+1.5*v_d110) INF INF units box
+region          rbot block INF INF INF 3.0285029884829253177 INF INF units box
+region          rint block INF INF $(v_ymid-8) $(v_ymid+8) INF INF units box
+region          rint block INF INF 11.180518927058500367 $(v_ymid+8) INF INF units box
+region          rint block INF INF 11.180518927058500367 27.180518927058500367 INF INF units box
+group           top region rtop
+240 atoms in group top
+group           bot region rbot
+240 atoms in group bot
+group           int region rint
+960 atoms in group int
+change_box      all x scale $(1+v_exx) y scale $(1+v_eyy) z scale $(1+v_ezz) remap
+change_box      all x scale 1 y scale $(1+v_eyy) z scale $(1+v_ezz) remap
+change_box      all x scale 1 y scale 1 z scale $(1+v_ezz) remap
+change_box      all x scale 1 y scale 1 z scale 1.0013784544999999593 remap
+Changing box ...
+  triclinic box = (0 -0.0088751154 0) to (24.727623 38.369913 27.976112) with tilt (0 0 0)
+  triclinic box = (0 -0.012712994 0) to (24.727623 38.373751 27.976112) with tilt (0 0 0)
+  triclinic box = (0 -0.016551641 -0.019281899) to (24.727623 38.377589 27.995394) with tilt (0 0 0)
+change_box      all xy final $(v_gxy*ly) xz final $(v_gxz*lz) yz final $(v_gyz*lz) remap units box
+change_box      all xy final 0 xz final $(v_gxz*lz) yz final $(v_gyz*lz) remap units box
+change_box      all xy final 0 xz final 0.22974328201116106518 yz final $(v_gyz*lz) remap units box
+change_box      all xy final 0 xz final 0.22974328201116106518 yz final 0 remap units box
+Changing box ...
+  triclinic box = (0 -0.019188433 -0.019281899) to (24.727623 38.380226 27.995394) with tilt (0 0 0)
+  triclinic box = (0 -0.023028375 -0.019281899) to (24.727623 38.384066 27.995394) with tilt (0 0.22974328 0)
+  triclinic box = (0 -0.026869084 -0.019281899) to (24.727623 38.387907 27.995394) with tilt (0 0.22974328 0)
+variable        fx equal ${sxy}*lx*lz*0.0062415091/count(top)
+variable        fx equal 2.3475542418*lx*lz*0.0062415091/count(top)
+fix             ftop top addforce $(v_fx) 0.0 0.0
+fix             ftop top addforce 0.042292366187253897791 0.0 0.0
+fix             fbot bot addforce $(-v_fx) 0.0 0.0
+fix             fbot bot addforce -0.042292366187253897791 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+compute         sa all stress/atom NULL
+compute         ss int reduce sum c_sa[1] c_sa[2] c_sa[3] c_sa[4] c_sa[5] c_sa[6]
+variable        om equal ${a}^3/2*(1+${exx})*(1+${eyy})*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+${exx})*(1+${eyy})*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+0.0000000000)*(1+${eyy})*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+0.0000000000)*(1+0)*(1+${ezz})*count(int)*1e4
+variable        om equal 2.8553^3/2*(1+0.0000000000)*(1+0)*(1+0.0013784545)*count(int)*1e4
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+min_style       cg
+minimize        1e-15 1e-15 20000 200000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 7 11 8
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton/tri
+      stencil: half/bin/3d/tri
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.265 | 5.272 | 5.278 Mbytes
+   Step         PotEng          Fmax           Pxx            Pyy            Pzz            Pyz            Pxz            Pxy      
+         0  -9750.3148      0.048954118   -4132.3542     -8549.9308     -6543.9004      3.5827714e-11 -8746.7502     -1.3261601e-11
+       130  -9757.6169      3.5271853e-07 -2542.9291      0.014206219   -2779.9035     -0.078673234   -6515.8267     -22153.49     
+Loop time of 0.484905 on 7 procs for 130 steps with 2400 atoms
+
+79.6% CPU use with 7 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+      -9750.3148266957    -9757.616895756  -9757.61689575599
+  Force two-norm initial, final = 1.2364227 8.1578278e-06
+  Force max component initial, final = 0.048954118 3.5271853e-07
+  Final line search alpha, max atom move = 1 3.5271853e-07
+  Iterations, force evaluations = 130 260
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.34688    | 0.34908    | 0.35841    |   0.7 | 71.99
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.067987   | 0.079688   | 0.094289   |   3.8 | 16.43
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.00027385 | 0.00062657 | 0.0015016  |   0.0 |  0.13
+Other   |            | 0.05551    |            |       | 11.45
+
+Nlocal:        342.857 ave         360 max         240 min
+Histogram: 1 0 0 0 0 0 0 0 0 6
+Nghost:           2304 ave        2655 max        1659 min
+Histogram: 2 0 0 0 0 0 0 0 4 1
+Neighs:        21771.4 ave       24604 max       16405 min
+Histogram: 1 0 0 2 0 0 0 0 0 4
+
+Total # of neighbors = 152400
+Ave neighs/atom = 63.5
+Neighbor list builds = 0
+Dangerous builds = 0
+print           "INFO ${tag} geom=${geom} atoms=$(atoms) top=$(count(top)) bot=$(count(bot)) int=$(count(int)) lx=$(lx:%.4f) lz=$(lz:%.4f) fx=$(v_fx:%.8f) fmax=$(fmax:%.2e)"
+INFO chi+12_tau2.4_it0 geom=slab atoms=2400 top=240 bot=240 int=960 lx=24.7276 lz=28.0147 fx=0.04229237 fmax=3.53e-07
+print           "GLOBAL_GPa ${tag} sxx=$(-pxx/1e4:%.6f) syy=$(-pyy/1e4:%.6f) szz=$(-pzz/1e4:%.6f) syz=$(-pyz/1e4:%.6f) sxz=$(-pxz/1e4:%.6f) sxy=$(-pxy/1e4:%.6f)"
+GLOBAL_GPa chi+12_tau2.4_it0 sxx=0.254293 syy=-0.000001 szz=0.277990 syz=0.000008 sxz=0.651583 sxy=2.215349
+print           "INTERIOR_GPa ${tag} sxx=$(c_ss[1]/v_om:%.6f) syy=$(c_ss[2]/v_om:%.6f) szz=$(c_ss[3]/v_om:%.6f) syz=$(c_ss[6]/v_om:%.6f) sxz=$(c_ss[5]/v_om:%.6f) sxy=$(c_ss[4]/v_om:%.6f)"
+INTERIOR_GPa chi+12_tau2.4_it0 sxx=0.135686 syy=-0.000001 szz=-0.031653 syz=0.000011 sxz=0.357035 sxy=2.341833
+Total wall time: 0:00:00

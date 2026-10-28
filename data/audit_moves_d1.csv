@@ -1,0 +1,16 @@
+run,cell,chi_deg,tau_last_unmoved,tau_first_moved,first_moved_kind,shift_A,jumps,angle_deg,orientation,glide_plane,topcol_b,topcol_dydz,core_shape,flag
+chi_small_m30,small,-30.0,1.16,1.17,fine,2.3314,1.0,60.0,down,(0 1 -1),1.54,"(+0.67,+1.17)",column-centred,
+chi_small_m24,small,-24.0,1.18,1.19,fine,2.3314,1.0,60.0,down,(0 1 -1),1.552,"(+0.67,+1.17)",column-centred,
+chi_small_m18,small,-18.0,1.21,1.22,fine,6.994,3.0,-0.0,down,(-110),1.182,"(+0.67,+5.83)",compact,
+chi_small_m12,small,-12.0,1.22,1.23,fine,6.994,3.0,-0.0,down,(-110),1.135,"(+0.67,+5.83)",compact,
+chi_small_m6,small,-6.0,1.25,1.26,fine,2.3313,1.0,-0.0,down,(-110),1.208,"(+0.67,+3.50)",compact,
+chi_small_p6,small,6.0,1.39,1.4,coarse,6.994,3.0,-0.0,down,(-110),1.146,"(+0.67,+5.83)",compact,
+chi_small_p12,small,12.0,1.49,1.5,coarse,2.3313,1.0,-0.0,down,(-110),1.215,"(+0.67,+3.50)",compact,
+chi_small_p18,small,18.0,1.64,1.65,coarse,2.3313,1.0,-0.0,down,(-110),1.218,"(+0.67,+3.50)",compact,
+chi_small_p24,small,24.0,1.88,1.89,fine,6.994,3.0,-0.0,down,(-110),1.134,"(+0.67,+5.83)",compact,
+chi_small_p30,small,30.0,2.04,2.05,coarse,6.994,3.0,-60.0,down,(-1 0 1),1.159,"(-5.38,+4.66)",compact,
+gateBp_small_np7 (chi = 0),small,0.0,1.285,1.29,coarse,6.994,3.0,-0.0,down,(-110),1.16,"(+0.67,+5.83)",compact,
+chi_x2_m30,2x,-30.0,1.17,1.18,fine,2.3314,1.0,60.0,down,(0 1 -1),1.539,"(+0.67,+1.17)",column-centred,
+chi_x2_p30,2x,30.0,2.04,2.05,coarse,2.3314,1.0,-60.0,down,(-1 0 1),1.213,"(-1.35,+2.33)",compact,
+chi_small_m28,small (live),-28.0,1.16,1.17,fine,2.3314,1.0,60.0,down,(0 1 -1),1.545,"(+0.67,+1.17)",column-centred,
+chi_small_p28,small (live),28.0,2.11,2.12,fine,1.346,0.577,90.0,up,none (no jump),1.803,"(+0.67,+1.17)",column-centred,"NOT A JUMP: shift 1.346 A, orientation 'up'"

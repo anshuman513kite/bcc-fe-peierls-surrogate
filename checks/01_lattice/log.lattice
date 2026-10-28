@@ -1,0 +1,88 @@
+LAMMPS (22 Jul 2025 - Update 6)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+  using 1 OpenMP thread(s) per MPI task
+units           metal
+boundary        p p p
+atom_style      atomic
+lattice         bcc 2.855
+Lattice spacing in x,y,z = 2.855 2.855 2.855
+region          box block 0 5 0 5 0 5
+create_box      1 box
+Created orthogonal box = (0 0 0) to (14.275 14.275 14.275)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 250 atoms
+  using lattice units in orthogonal box = (0 0 0) to (14.275 14.275 14.275)
+  create_atoms CPU = 0.001 seconds
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+Reading eam/fs potential file ../../potentials/Fe_mm.eam.fs with DATE: 2007-06-11
+thermo_style    custom step pe lx press
+fix             1 all box/relax iso 0.0 vmax 0.001
+min_style       cg
+minimize        1e-12 1e-12 10000 100000
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7.3
+  ghost atom cutoff = 7.3
+  binsize = 3.65, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair eam/fs, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+WARNING: Energy due to 1 extra global DOFs will be included in minimizer energies
+ (src/min.cpp:224)
+Per MPI rank memory allocation (min/avg/max) = 4.527 | 4.527 | 4.527 Mbytes
+   Step         PotEng           Lx           Press     
+         0  -1030.6086      14.275         607.2986     
+         2  -1030.6088      14.276624      0.0015122724 
+Loop time of 0.00229001 on 1 procs for 2 steps with 250 atoms
+
+66.1% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+     -1030.60858718465  -1030.60877551506  -1030.60877551525
+  Force two-norm initial, final = 3.3078174 8.2388783e-06
+  Force max component initial, final = 3.3078174 8.2388783e-06
+  Final line search alpha, max atom move = 0.27887948 2.2976541e-06
+  Iterations, force evaluations = 2 4
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0021377  | 0.0021377  | 0.0021377  |   0.0 | 93.35
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 3.6971e-05 | 3.6971e-05 | 3.6971e-05 |   0.0 |  1.61
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0001153  |            |       |  5.04
+
+Nlocal:            250 ave         250 max         250 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           2081 ave        2081 max        2081 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:          17000 ave       17000 max       17000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17000
+Ave neighs/atom = 68
+Neighbor list builds = 0
+Dangerous builds = 0
+variable        a equal lx/5
+variable        ecoh equal pe/atoms
+print           "RESULT a0 = ${a} Angstrom"
+RESULT a0 = 2.85532485998659 Angstrom
+print           "RESULT Ecoh = ${ecoh} eV/atom"
+RESULT Ecoh = -4.12243510206099 eV/atom
+variable        pfinal equal press
+print           "RESULT press_final = ${pfinal} bar"
+RESULT press_final = 0.00151227235169209 bar
+write_data      relaxed.data
+System init for write_data ...
+Total wall time: 0:00:00

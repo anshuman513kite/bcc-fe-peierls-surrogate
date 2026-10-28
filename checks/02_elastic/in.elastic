@@ -1,0 +1,47 @@
+# Static 0 K elastic constants C11, C12, C44 of bcc Fe (Mendelev 2003 EAM/FS, Fe_mm.eam.fs).
+# Cell: relaxed 5x5x5 bcc (250 atoms), x=[100] y=[010] z=[001], from checks/01_lattice.
+# Usage: lmp -in in.elastic -var e 0.001
+#
+# Strain definitions:
+#   C11, C12: normal strain eps_xx = +-e  (lx -> lx*(1+-e)).
+#   C44:      tilt xy = +-e*ly, i.e. ENGINEERING shear strain gamma_xy = 2*eps_xy = +-e.
+#             Voigt: sigma_xy = C44*gamma_xy, so C44 = -(Pxy(+e)-Pxy(-e))/(2e).
+# Sign convention: LAMMPS reports pressure P_ij = -sigma_ij (stress, tension positive), in bar.
+#   C11 = -(Pxx(+e)-Pxx(-e))/(2e),  C12 = -(Pyy(+e)-Pyy(-e))/(2e),  1 GPa = 10000 bar.
+
+variable  ep   equal  ${e}
+variable  em   equal  -${e}
+
+variable  mode string x
+variable  tag  string x_plus
+variable  e    delete
+variable  e    equal ${ep}
+include   strain.mod
+variable  pxx_p equal $(pxx)
+variable  pyy_p equal $(pyy)
+
+variable  tag  string x_minus
+variable  e    delete
+variable  e    equal ${em}
+include   strain.mod
+variable  pxx_m equal $(pxx)
+variable  pyy_m equal $(pyy)
+
+variable  mode delete
+variable  mode string xy
+variable  tag  string xy_plus
+variable  e    delete
+variable  e    equal ${ep}
+include   strain.mod
+variable  pxy_p equal $(pxy)
+
+variable  tag  string xy_minus
+variable  e    delete
+variable  e    equal ${em}
+include   strain.mod
+variable  pxy_m equal $(pxy)
+
+variable  C11 equal -(v_pxx_p-v_pxx_m)/(2*v_ep)/1e4
+variable  C12 equal -(v_pyy_p-v_pyy_m)/(2*v_ep)/1e4
+variable  C44 equal -(v_pxy_p-v_pxy_m)/(2*v_ep)/1e4
+print     "RESULT e=${ep} C11=$(v_C11:%.4f) C12=$(v_C12:%.4f) C44=$(v_C44:%.4f) GPa"

@@ -1,0 +1,46 @@
+# Perfect bcc Fe (Mendelev 2003 #2) in the screw frame x = [111], y = [-110], z = [-1-12], under a homogeneous box strain.
+# Box from the true repeats a*sqrt3 x a*sqrt2 x a*sqrt6 (5 x 10 x 4), as checks/03_tilt_xz. a = 2.8553 A.
+# geom = block: fully periodic.  geom = slab: y non-periodic (free faces, shrink-wrapped), optional surface forces.
+# Strain (engineering shears): stretches first (x, y, z scale 1+eps), then tilts xy = gxy*Ly, xz = gxz*Lz, yz = gyz*Lz.
+# Slab surface forces: +fx on the top 2 (-110) planes, -fx on the bottom 2, fx = sxy*Lx*Lz/N_slab (fix_modify energy yes).
+# Stress: block -> global pressure; both -> interior average of stress/atom (|y - ymid| < 8 A), sigma = sum/(N*Omega),
+#   Omega = (a^3/2)(1+exx)(1+eyy)(1+ezz) (eyy of the slab is not imposed: Omega uses the imposed eyy = 0, error <= 0.3 %).
+# Sign convention: LAMMPS pressure P_ij = -sigma_ij; stress/atom summed / volume = sigma (tension positive). Output in GPa.
+# Vars: geom tag exx eyy ezz gyz gxz gxy sxy
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+if "${geom} == block" then "boundary p p p" else "boundary p s p"
+lattice         bcc ${a} orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+region          box prism 0 $(5*v_a*sqrt(3)) -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 $(5*v_a*sqrt(3)) -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+if "${geom} == block" then "region box delete" "region box prism 0 $(5*v_a*sqrt(3)) 0 $(10*v_a*sqrt(2)) 0 $(4*v_a*sqrt(6)) 0 0 0 units box"
+create_box      1 box
+create_atoms    1 region xtal
+mass            1 55.845
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+variable        ymid equal $(0.5*(bound(all,ymin)+bound(all,ymax)))
+variable        d110 equal v_a*sqrt(2)/2
+region          rtop block INF INF $(bound(all,ymax)-1.5*v_d110) INF INF INF units box
+region          rbot block INF INF INF $(bound(all,ymin)+1.5*v_d110) INF INF units box
+region          rint block INF INF $(v_ymid-8) $(v_ymid+8) INF INF units box
+group           top region rtop
+group           bot region rbot
+group           int region rint
+change_box      all x scale $(1+v_exx) y scale $(1+v_eyy) z scale $(1+v_ezz) remap
+change_box      all xy final $(v_gxy*ly) xz final $(v_gxz*lz) yz final $(v_gyz*lz) remap units box
+variable        fx equal ${sxy}*lx*lz*0.0062415091/count(top)
+fix             ftop top addforce $(v_fx) 0.0 0.0
+fix             fbot bot addforce $(-v_fx) 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+compute         sa all stress/atom NULL
+compute         ss int reduce sum c_sa[1] c_sa[2] c_sa[3] c_sa[4] c_sa[5] c_sa[6]
+variable        om equal ${a}^3/2*(1+${exx})*(1+${eyy})*(1+${ezz})*count(int)*1e4
+thermo_style    custom step pe fmax pxx pyy pzz pyz pxz pxy
+min_style       cg
+minimize        1e-15 1e-15 20000 200000
+print           "INFO ${tag} geom=${geom} atoms=$(atoms) top=$(count(top)) bot=$(count(bot)) int=$(count(int)) lx=$(lx:%.4f) lz=$(lz:%.4f) fx=$(v_fx:%.8f) fmax=$(fmax:%.2e)"
+print           "GLOBAL_GPa ${tag} sxx=$(-pxx/1e4:%.6f) syy=$(-pyy/1e4:%.6f) szz=$(-pzz/1e4:%.6f) syz=$(-pyz/1e4:%.6f) sxz=$(-pxz/1e4:%.6f) sxy=$(-pxy/1e4:%.6f)"
+print           "INTERIOR_GPa ${tag} sxx=$(c_ss[1]/v_om:%.6f) syy=$(c_ss[2]/v_om:%.6f) szz=$(c_ss[3]/v_om:%.6f) syz=$(c_ss[6]/v_om:%.6f) sxz=$(c_ss[5]/v_om:%.6f) sxy=$(c_ss[4]/v_om:%.6f)"

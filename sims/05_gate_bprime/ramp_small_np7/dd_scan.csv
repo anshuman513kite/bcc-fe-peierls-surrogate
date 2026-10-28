@@ -1,0 +1,12 @@
+kind,tau_GPa,dd_dy_A,dd_dz_A,orientation,topcol_b
+coarse,1.2,-0.0,-0.0,down,1.198
+coarse,1.21,-0.0,-0.0,down,1.199
+coarse,1.22,-0.0,-0.0,down,1.201
+coarse,1.23,-0.0,-0.0,down,1.202
+coarse,1.24,-0.0,-0.0,down,1.203
+coarse,1.25,-0.0,-0.0,down,1.204
+coarse,1.26,-0.0,-0.0,down,1.205
+coarse,1.27,-0.0,-0.0,down,1.206
+coarse,1.28,-0.0,-0.0,down,1.207
+fine,1.285,-0.0,-0.0,down,1.208
+coarse,1.29,-0.0,6.994,down,1.16

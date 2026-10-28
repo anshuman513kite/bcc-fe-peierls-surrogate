@@ -1,0 +1,14 @@
+chi_deg,glide_plane,used_in_fit,tau_ours,tau_our_fit,residual,tau_chaussidon_fit,ratio_ours_theirs,source
+-30.0,- (split),no,1.165,1.18177,-0.01677,1.1504,1.0127,data/chi_small_m30.csv
+-28.0,- (split core on a vertex column),no,1.165,1.18011,-0.01511,1.1455,1.017,live round 1
+-24.0,- (split),no,1.185,1.18111,0.00389,1.13998,1.0395,data/chi_small_m24.csv
+-18.0,(-110),yes,1.215,1.19352,0.02148,1.14215,1.0638,data/chi_small_m18.csv
+-12.0,(-110),yes,1.225,1.21969,0.00531,1.15702,1.0588,data/chi_small_m12.csv
+-6.0,(-110),yes,1.255,1.26117,-0.00617,1.18545,1.0587,data/chi_small_m6.csv
+0.0,(-110),yes,1.315,1.32054,-0.00554,1.22912,1.0699,"data/chi_small_0.csv (B2, sweep protocol, corrected loading; D6 baseline)"
+6.0,(-110),yes,1.395,1.4019,-0.0069,1.29081,1.0807,data/chi_small_p6.csv
+12.0,(-110),yes,1.495,1.51159,-0.01659,1.37488,1.0874,data/chi_small_p12.csv
+18.0,(-110),yes,1.645,1.65963,-0.01463,1.4881,1.1054,data/chi_small_p18.csv
+24.0,(-110),yes,1.885,1.86244,0.02256,1.64124,1.1485,data/chi_small_p24.csv
+28.0,- (split core on a vertex column),no,2.115,2.04135,0.07365,1.77387,1.1923,live round 2
+30.0,(-1 0 1),no,2.045,2.14853,-0.10353,1.85214,1.1041,data/chi_small_p30.csv

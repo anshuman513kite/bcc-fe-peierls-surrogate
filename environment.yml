@@ -1,0 +1,17 @@
+# Analysis environment (surrogate models, tests, figures from data/): the versions actually used (conda env "ml", 28 Oct 2026).
+# Create: conda env create -f environment.yml && conda activate projecta-ml
+name: projecta-ml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.18
+  - numpy=2.4.6
+  - scipy=1.17.1
+  - pandas=3.1.0
+  - matplotlib=3.11.2
+  - scikit-learn=1.9.1
+  - pytest=9.1.1
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cpu
+      - torch==2.14.1+cpu

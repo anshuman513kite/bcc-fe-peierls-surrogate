@@ -1,0 +1,29 @@
+# ---- private (never published; 28 Oct 2026, publish block) ----
+README_draft.md
+SESSION_REPORT_*.md
+MORNING_REPORT.md
+# run logs and progress files
+logs/
+log.lammps
+log.fe_lattice_prm
+sims/**/log.*
+sims/**/*.out
+# per-step simulation data (states, per-atom energies, stability tests, diagnostics)
+sims/**/steps/
+sims/**/stab/
+sims/**/track/
+sims/**/diag/*.data
+sims/**/*.in.data
+sims/**/screw_*.data
+sims/**/*.npy
+sims/00_crashsafe_test/relaxed_down.data
+checks/08_seam_pe/*.pe
+checks/08_seam_pe/step0/steps/
+checks/08_seam_pe/step0/*.npy
+checks/08_gateA_rebox/slab0.data
+*.dump
+# interatomic potentials: fetched by tools/fetch_potential.sh, not redistributed
+potentials/
+# ---- build artefacts ----
+__pycache__/
+.pytest_cache/

@@ -1,0 +1,37 @@
+# Diagnosis: forces right after reading a converged state, with and without change_box remap (same box values).
+# cb = 8/9: as 6/7 but y boundary switched to f during the remap, then back to s
+# cb = 6: run 0 first, then change_box remap (identical box); cb = 7: same with a real strain (x*1.0005, z*1.002, xz+0.3)
+# Vars: datain cb (1 = apply change_box like in.step_chi, 0 = not) fx
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       ${datain}
+variable        Lx equal lx
+variable        Lz equal lz
+variable        XZ equal xz
+variable        fx_scale equal 1.0
+variable        fz_scale equal 1.0
+variable        dxz equal 0.0
+if "${cb} == 7 || ${cb} == 9" then "variable fx_scale equal 1.0005" "variable fz_scale equal 1.002" "variable dxz equal 0.3"
+if "${cb} == 1" then "change_box all x final 0 $(v_Lx:%.10f) z final 0 $(v_Lz:%.10f) xz final $(v_XZ:%.10f) remap units box"
+if "${cb} == 2" then "change_box all x final 0 $(v_Lx:%.10f) remap units box"
+if "${cb} == 3" then "change_box all z final 0 $(v_Lz:%.10f) remap units box"
+if "${cb} == 4" then "change_box all xz final $(v_XZ:%.10f) remap units box"
+if "${cb} >= 6" then "run 0" "change_box all x final 0 $(v_Lx*v_fx_scale:%.10f) z final 0 $(v_Lz*v_fz_scale:%.10f) xz final $(v_XZ+v_dxz:%.10f) remap units box"
+if "${cb} >= 8" then "change_box all boundary p f p" "change_box all x final 0 $(v_Lx*v_fx_scale:%.10f) z final 0 $(v_Lz*v_fz_scale:%.10f) xz final $(v_XZ+v_dxz:%.10f) remap units box" "change_box all boundary p s p"
+if "${cb} == 5" then "change_box all x final 0 $(v_Lx:%.10f) z final 0 $(v_Lz:%.10f) xz final $(v_XZ:%.10f) units box"
+variable        xb atom x
+variable        yb atom y
+variable        zb atom z
+if "${cb} >= 1" then "write_dump all custom after_${cb}.dump id x y z modify sort id format float %.12g"
+pair_style      eam/fs
+pair_coeff      * * ../../../potentials/Fe_mm.eam.fs Fe
+write_dump      all custom before_${cb}.dump id x y z modify sort id format float %.12g
+include         ../ramp_small_np7/groups.lmp
+fix             ftop top addforce ${fx} 0.0 0.0
+fix             fbot bot addforce -${fx} 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+thermo_style    custom step pe fmax fnorm
+run             0
+print           "READTEST cb=${cb} fmax=$(fmax:%.3e) fnorm=$(fnorm:%.3e) xlo=$(xlo:%.12f) xhi=$(xhi:%.12f) zhi=$(zhi:%.12f) xz=$(xz:%.12f)"

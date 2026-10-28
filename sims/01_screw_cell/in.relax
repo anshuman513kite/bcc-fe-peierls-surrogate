@@ -1,0 +1,28 @@
+# Relax one 1/2[111] screw dislocation in bcc Fe (Mendelev 2003 potential 2) at 0 K.
+# Frame: x=[111] line (periodic), y=[-110] glide-plane normal (free surfaces), z=[-1-12] glide direction (periodic).
+# Usage: lmp -in in.relax -var tag up   (reads screw_${tag}.data from build.py)
+# Optional: -var maxit N (default 10000) for timing tests.
+variable        maxit index 10000
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       screw_${tag}.data
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+
+compute         peat all pe/atom
+compute         dist all pair/local dist
+compute         dmin all reduce min c_dist inputs local
+thermo_style    custom step pe fnorm fmax c_dmin
+thermo_modify   format float %.12g
+thermo          10
+
+run             0
+print           "CHECK ${tag} after_insertion E=$(pe:%.6f) eV dmin=$(c_dmin:%.4f) A fmax=$(fmax:%.4f) eV/A"
+write_dump      all custom inserted_${tag}.dump id x y z c_peat modify sort id format float %.10g
+
+min_style       cg
+minimize        1e-12 1e-12 ${maxit} 100000
+print           "CHECK ${tag} after_relax E=$(pe:%.6f) eV dmin=$(c_dmin:%.4f) A fmax=$(fmax:%.3e) eV/A fnorm=$(fnorm:%.3e)"
+write_dump      all custom relaxed_${tag}.dump id x y z c_peat modify sort id format float %.10g
+write_data      relaxed_${tag}.data

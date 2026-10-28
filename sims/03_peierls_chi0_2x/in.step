@@ -1,0 +1,49 @@
+# One stress step of the Peierls-stress ramp (screw dislocation, chi = 0, glide plane (-110)).
+# Frame: x = [111] line (periodic), y = [-110] glide-plane normal (free surfaces), z = [-1-12] glide (periodic).
+# Applied glide stress sigma_xy: force +fx on every atom of the top y-surface slab, -fx on the bottom slab,
+#   fx = sigma * Lx*Lz / N_slab (set by the driver peierls.py).
+# fix_modify energy yes: the work term -F.x (unwrapped x) is added to the energy the minimiser lowers,
+#   so energy and forces stay consistent.
+# Core position: excess-energy-weighted centroid (zero = bulk -4.1224 eV/atom) of atoms within 4 A of the
+#   glide plane y = y0 with excess > 0.01 eV; circular mean along periodic z.
+# Vars: datain dataout fx y0 LZ maxit groups halt_dist
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       ${datain}
+pair_style      eam/fs
+pair_coeff      * * ../../potentials/Fe_mm.eam.fs Fe
+include         ${groups}
+
+fix             ftop top addforce ${fx} 0.0 0.0
+fix             fbot bot addforce -${fx} 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+
+compute         pea all pe/atom pair
+compute         ppair all pe pair
+variable        w  atom (abs(y-${y0})<4.0)*((c_pea+4.1224)>0.01)*(c_pea+4.1224)
+variable        wc atom v_w*cos(2*PI*z/${LZ})
+variable        ws atom v_w*sin(2*PI*z/${LZ})
+variable        wy atom v_w*y
+compute         cs all reduce sum v_w v_wc v_ws v_wy
+# core z (mod LZ) and core y
+variable        cz equal atan2(c_cs[3],c_cs[2])*${LZ}/(2*PI)
+variable        cy equal c_cs[4]/c_cs[1]
+# displacement since start of this step, wrapped to (-LZ/2, LZ/2]
+run             0
+variable        c0 equal $(c_cs[2]/c_cs[1])
+variable        s0 equal $(c_cs[3]/c_cs[1])
+variable        dcz equal atan2(c_cs[3]*v_c0-c_cs[2]*v_s0,c_cs[2]*v_c0+c_cs[3]*v_s0)*${LZ}/(2*PI)
+print           "START cz=$(v_cz:%.6f) cy=$(v_cy:%.6f) pe=$(pe:%.8f) epair=$(c_ppair:%.8f)"
+thermo_style    custom step pe c_ppair fmax v_cz v_cy v_dcz
+thermo_modify   format float %.10g
+thermo          10
+# runaway guard: stop once the core has moved more than halt_dist within this step
+fix             runaway all halt 10 v_dcz > ${halt_dist} error continue
+fix             runaway2 all halt 10 v_dcz < -${halt_dist} error continue
+
+min_style       cg
+minimize        1e-12 1e-12 ${maxit} 100000
+print           "END cz=$(v_cz:%.6f) cy=$(v_cy:%.6f) dcz=$(v_dcz:%.6f) pe=$(pe:%.8f) epair=$(c_ppair:%.8f) fmax=$(fmax:%.3e)"
+write_data      ${dataout}
