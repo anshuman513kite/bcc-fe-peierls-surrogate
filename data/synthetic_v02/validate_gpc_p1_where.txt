@@ -1,0 +1,18 @@
+weak   seed 107: RMSE 0.0052; wrong at (+30,-0.67) true glide p=0.52 gap 0.036 err -0.001, (+30,-0.33) true glide p=0.56 gap 0.030 err -0.010, (+30,+0.00) true glide p=0.61 gap 0.025 err -0.011, (+30,+0.33) true glide p=0.65 gap 0.019 err -0.004, (+30,+0.67) true glide p=0.68 gap 0.014 err -0.009, (+30,+1.00) true glide p=0.71 gap 0.008 err -0.008
+medium seed 100: RMSE 0.0136; wrong at (-20,+1.00) true glide p=0.53 gap 0.003 err +0.005, (+30,-1.00) true glide p=0.72 gap 0.073 err +0.060, (+30,-0.67) true glide p=0.76 gap 0.057 err +0.054, (+30,-0.33) true glide p=0.80 gap 0.041 err +0.038, (+30,+0.00) true glide p=0.82 gap 0.025 err +0.023, (+30,+0.33) true glide p=0.84 gap 0.008 err +0.017
+medium seed 101: RMSE 0.0078; wrong at (+30,+0.00) true glide p=0.51 gap 0.025 err +0.039, (+30,+0.33) true glide p=0.54 gap 0.008 err +0.028
+medium seed 102: RMSE 0.0039; wrong at (+30,+0.67) true split p=0.24 gap 0.011 err -0.004, (+30,+1.00) true split p=0.25 gap 0.031 err +0.009
+medium seed 103: RMSE 0.0460; wrong at (+30,-1.00) true glide p=0.87 gap 0.073 err +0.156, (+30,-0.67) true glide p=0.91 gap 0.057 err +0.168, (+30,-0.33) true glide p=0.94 gap 0.041 err +0.155, (+30,+0.00) true glide p=0.96 gap 0.025 err +0.127, (+30,+0.33) true glide p=0.96 gap 0.008 err +0.093
+medium seed 104: RMSE 0.0049; wrong at (+30,+0.67) true split p=0.42 gap 0.011 err -0.018, (+30,+1.00) true split p=0.47 gap 0.031 err -0.013
+medium seed 105: RMSE 0.0053; wrong at (+30,-0.33) true glide p=0.55 gap 0.041 err +0.015, (+30,+0.00) true glide p=0.74 gap 0.025 err +0.013, (+30,+0.33) true glide p=0.85 gap 0.008 err +0.014
+medium seed 106: RMSE 0.0093; wrong at (+30,+0.00) true glide p=0.58 gap 0.025 err +0.002, (+30,+0.33) true glide p=0.70 gap 0.008 err +0.010
+medium seed 107: RMSE 0.0069; wrong at (+30,-0.33) true glide p=0.55 gap 0.041 err +0.015, (+30,+0.00) true glide p=0.66 gap 0.025 err -0.007, (+30,+0.33) true glide p=0.75 gap 0.008 err -0.014
+medium seed 108: RMSE 0.0116; wrong at (+30,+0.00) true glide p=0.54 gap 0.025 err +0.059, (+30,+0.33) true glide p=0.69 gap 0.008 err +0.045
+strong seed 100: RMSE 0.0096; wrong at (-20,+0.67) true split p=0.48 gap 0.008 err +0.015, (+30,-0.33) true glide p=0.59 gap 0.056 err -0.032, (+30,+0.00) true glide p=0.84 gap 0.025 err +0.009
+strong seed 101: RMSE 0.0081; wrong at (-30,-1.00) true glide p=0.69 gap 0.011 err +0.011, (+20,+1.00) true split p=0.18 gap 0.011 err +0.003, (+30,+0.00) true glide p=0.68 gap 0.025 err +0.030
+strong seed 102: RMSE 0.0062; wrong at (-20,+0.67) true split p=0.34 gap 0.008 err +0.012, (-20,+1.00) true split p=0.44 gap 0.033 err +0.026
+strong seed 103: RMSE 0.0147; wrong at (+20,+0.67) true glide p=0.53 gap 0.024 err +0.016, (+30,-0.33) true glide p=0.67 gap 0.056 err -0.036, (+30,+0.00) true glide p=0.85 gap 0.025 err -0.062
+strong seed 105: RMSE 0.0067; wrong at (+20,+1.00) true split p=0.34 gap 0.011 err -0.006, (+30,-0.33) true glide p=0.62 gap 0.056 err +0.032, (+30,+0.00) true glide p=0.81 gap 0.025 err +0.014
+strong seed 106: RMSE 0.0081; wrong at (-30,-0.67) true split p=0.48 gap 0.007 err +0.000, (+20,+1.00) true split p=0.38 gap 0.011 err +0.010, (+30,+0.00) true glide p=0.58 gap 0.025 err +0.003
+strong seed 107: RMSE 0.0112; wrong at (-30,-0.67) true split p=0.47 gap 0.007 err +0.004, (+20,+1.00) true split p=0.35 gap 0.011 err +0.000, (+30,-0.33) true glide p=0.57 gap 0.056 err +0.047, (+30,+0.00) true glide p=0.69 gap 0.025 err +0.005
+wrong-event points: 54; true glide-split gap: median 0.025, max 0.073 GPa, 22 below 0.02 GPa; |tau_P error| there: median 0.014, max 0.168 GPa, 34 below 0.02 GPa

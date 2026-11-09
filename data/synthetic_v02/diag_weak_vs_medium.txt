@@ -1,0 +1,153 @@
+
+===== weak: pool 2000 points (48 x 40 + edges); T split points 7 of 49 (at chi = [np.float64(-30.0)]); pool split points 404
+
+--- weak seed 0
+  pick 25: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +20 +1.000  1.745  glide    1.645  split         1.743       1.645  -0.100
+     +20 +0.667  1.715  glide    1.645  split         1.717       1.645  -0.070
+     +30 +1.000  2.155  glide    2.089  glide         2.089       2.143  -0.066
+     +20 +0.333  1.695  glide    1.645  split         1.694       1.645  -0.050
+     +30 +0.667  2.115  glide    2.065  glide         2.065       2.143  -0.050
+  pick 25: split undercuts on T (split predicted, truth glide): 7: (+20,-1.00) glide 1.652 split 1.644 true 1.645, (+20,-0.67) glide 1.655 split 1.644 true 1.655, (+20,-0.33) glide 1.663 split 1.644 true 1.655, (+20,+0.00) glide 1.676 split 1.645 true 1.675, (+20,+0.33) glide 1.694 split 1.645 true 1.695, (+20,+0.67) glide 1.717 split 1.645 true 1.715, (+20,+1.00) glide 1.743 split 1.645 true 1.745
+  pick 25: glide predicted where truth split: 0
+  pick 25: model n_glide 21, n_split 4; RMSE over T split points 0.0093, over T glide points 0.0257
+  RMSE every 10 picks: 10:0.0974 20:0.0314 30:0.0241 40:0.0610 50:0.1262 60:0.0844 70:0.0844 80:0.0423 90:0.0359 100:0.0344
+  reached RMSE <= 0.02 at pick: 102 (RMSE 0.0053)
+  picks that were split events: 17 of 102: {'near -30': 9, 'near +27': 8, 'other': 0}
+  final pick 102: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +1.000  2.155  glide    2.129  split         2.133       2.129  -0.026
+     +30 +0.667  2.115  glide    2.101  split         2.102       2.101  -0.014
+      +0 -1.000  1.295  glide    1.301  glide         1.301       2.039  +0.006
+     +20 -0.667  1.655  glide    1.649  glide         1.649       2.003  -0.006
+     -20 +0.667  1.225  glide    1.219  glide         1.219       1.281  -0.006
+  final pick 102: split undercuts on T (split predicted, truth glide): 2: (+30,+0.67) glide 2.102 split 2.101 true 2.115, (+30,+1.00) glide 2.133 split 2.129 true 2.155
+  final pick 102: glide predicted where truth split: 0
+  final pick 102: model n_glide 85, n_split 17; RMSE over T split points 0.0037, over T glide points 0.0055
+
+--- weak seed 1
+  pick 25: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 -1.000  2.015  glide    1.798  split         1.999       1.798  -0.217
+     +30 -0.667  2.015  glide    1.833  split         2.016       1.833  -0.182
+     +30 -0.333  2.035  glide    1.870  split         2.033       1.870  -0.165
+     +30 +0.000  2.055  glide    1.907  split         2.050       1.907  -0.148
+     +30 +1.000  2.155  glide    2.019  split         2.101       2.019  -0.136
+  pick 25: split undercuts on T (split predicted, truth glide): 7: (+30,-1.00) glide 1.999 split 1.798 true 2.015, (+30,-0.67) glide 2.016 split 1.833 true 2.015, (+30,-0.33) glide 2.033 split 1.870 true 2.035, (+30,+0.00) glide 2.050 split 1.907 true 2.055, (+30,+0.33) glide 2.067 split 1.944 true 2.075, (+30,+0.67) glide 2.084 split 1.982 true 2.115, (+30,+1.00) glide 2.101 split 2.019 true 2.155
+  pick 25: glide predicted where truth split: 0
+  pick 25: model n_glide 17, n_split 8; RMSE over T split points 0.0058, over T glide points 0.0665
+  RMSE every 10 picks: 10:0.0645 20:0.0766 30:0.0620 40:0.1363 50:0.1369
+  reached RMSE <= 0.02 at pick: 57 (RMSE 0.0096)
+  picks that were split events: 16 of 57: {'near -30': 9, 'near +27': 7, 'other': 0}
+  final pick 57: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +1.000  2.155  glide    2.119  glide         2.119       2.187  -0.036
+     +30 -1.000  2.015  glide    1.983  split         2.009       1.983  -0.032
+     -30 +1.000  1.175  split    1.202  split         1.240       1.202  +0.027
+     +30 +0.667  2.115  glide    2.093  glide         2.093       2.150  -0.022
+     -30 -0.667  1.155  split    1.143  split         1.180       1.143  -0.012
+  final pick 57: split undercuts on T (split predicted, truth glide): 2: (+30,-1.00) glide 2.009 split 1.983 true 2.015, (+30,-0.67) glide 2.019 split 2.013 true 2.015
+  final pick 57: glide predicted where truth split: 0
+  final pick 57: model n_glide 41, n_split 16; RMSE over T split points 0.0129, over T glide points 0.0089
+
+--- weak seed 2
+  pick 25: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+      +0 +1.000  1.365  glide    1.004  split         1.364       1.004  -0.361
+     +10 +1.000  1.515  glide    1.173  split         1.510       1.173  -0.342
+      +0 +0.667  1.345  glide    1.015  split         1.343       1.015  -0.330
+      +0 +0.333  1.325  glide    1.028  split         1.326       1.028  -0.297
+     +10 +0.667  1.485  glide    1.188  split         1.484       1.188  -0.297
+  pick 25: split undercuts on T (split predicted, truth glide): 42: (-20,-1.00) glide 1.189 split 1.129 true 1.195, (-20,-0.67) glide 1.190 split 1.120 true 1.195, (-20,-0.33) glide 1.194 split 1.112 true 1.195, (-20,+0.00) glide 1.202 split 1.104 true 1.205, (-20,+0.33) glide 1.212 split 1.098 true 1.215, (-20,+0.67) glide 1.225 split 1.092 true 1.225, (-20,+1.00) glide 1.241 split 1.087 true 1.235, (-10,-1.00) glide 1.229 split 1.046 true 1.225, (-10,-0.67) glide 1.228 split 1.034 true 1.225, (-10,-0.33) glide 1.231 split 1.022 true 1.225, (-10,+0.00) glide 1.237 split 1.011 true 1.235, (-10,+0.33) glide 1.248 split 1.002 true 1.245, (-10,+0.67) glide 1.262 split 0.992 true 1.265, (-10,+1.00) glide 1.280 split 0.984 true 1.275, (+0,-1.00) glide 1.301 split 1.087 true 1.295, (+0,-0.67) glide 1.301 split 1.071 true 1.305, (+0,-0.33) glide 1.305 split 1.056 true 1.305, (+0,+0.00) glide 1.313 split 1.042 true 1.315, (+0,+0.33) glide 1.326 split 1.028 true 1.325, (+0,+0.67) glide 1.343 split 1.015 true 1.345, (+0,+1.00) glide 1.364 split 1.004 true 1.365, (+10,-1.00) glide 1.424 split 1.276 true 1.435, (+10,-0.67) glide 1.426 split 1.258 true 1.435, (+10,-0.33) glide 1.434 split 1.239 true 1.435, (+10,+0.00) glide 1.446 split 1.222 true 1.455, (+10,+0.33) glide 1.463 split 1.205 true 1.465, (+10,+0.67) glide 1.484 split 1.188 true 1.485, (+10,+1.00) glide 1.510 split 1.173 true 1.515, (+20,-1.00) glide 1.637 split 1.596 true 1.645, (+20,-0.67) glide 1.646 split 1.575 true 1.655, (+20,-0.33) glide 1.659 split 1.555 true 1.655, (+20,+0.00) glide 1.677 split 1.535 true 1.675, (+20,+0.33) glide 1.700 split 1.516 true 1.695, (+20,+0.67) glide 1.727 split 1.497 true 1.715, (+20,+1.00) glide 1.759 split 1.478 true 1.745, (+30,-1.00) glide 1.985 split 1.980 true 2.015, (+30,-0.67) glide 2.002 split 1.960 true 2.015, (+30,-0.33) glide 2.024 split 1.939 true 2.035, (+30,+0.00) glide 2.049 split 1.919 true 2.055, (+30,+0.33) glide 2.079 split 1.898 true 2.075, (+30,+0.67) glide 2.112 split 1.878 true 2.115, (+30,+1.00) glide 2.149 split 1.859 true 2.155
+  pick 25: glide predicted where truth split: 7: (-30,-1.00), (-30,-0.67), (-30,-0.33), (-30,+0.00), (-30,+0.33), (-30,+0.67), (-30,+1.00)
+  pick 25: model n_glide 20, n_split 5; RMSE over T split points 0.0581, over T glide points 0.2093
+  RMSE every 10 picks: 10:0.0441 20:0.1953 30:0.0875 40:0.0782 50:0.0564
+  reached RMSE <= 0.02 at pick: 54 (RMSE 0.0037)
+  picks that were split events: 15 of 54: {'near -30': 8, 'near +27': 7, 'other': 0}
+  final pick 54: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +0.333  2.075  glide    2.083  glide         2.083       2.145  +0.008
+     -30 +0.667  1.175  split    1.168  split         1.221       1.168  -0.007
+     +10 -1.000  1.435  glide    1.428  glide         1.428       2.305  -0.007
+     +30 +1.000  2.155  glide    2.148  glide         2.148       2.197  -0.007
+     -10 -0.333  1.225  glide    1.231  glide         1.231       1.903  +0.006
+  final pick 54: split undercuts on T (split predicted, truth glide): 0
+  final pick 54: glide predicted where truth split: 1: (-30,-1.00)
+  final pick 54: model n_glide 39, n_split 15; RMSE over T split points 0.0038, over T glide points 0.0037
+
+===== medium: pool 2000 points (48 x 40 + edges); T split points 9 of 49 (at chi = [np.float64(-30.0), np.float64(30.0)]); pool split points 419
+
+--- medium seed 0
+  RMSE every 10 picks: 10:0.1390 20:0.0250
+  reached RMSE <= 0.02 at pick: 23 (RMSE 0.0178)
+  picks that were split events: 4 of 23: {'near -30': 2, 'near +27': 2, 'other': 0}
+  final pick 23: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +1.000  2.325  split    2.262  glide         2.262       2.350  -0.063
+     +30 +0.667  2.225  split    2.164  glide         2.164       2.350  -0.061
+     +30 +0.333  2.125  glide    2.082  glide         2.082       2.350  -0.043
+     -30 +1.000  1.215  split    1.175  split         1.275       1.175  -0.040
+     +30 +0.000  2.055  glide    2.019  glide         2.019       2.350  -0.036
+  final pick 23: split undercuts on T (split predicted, truth glide): 0
+  final pick 23: glide predicted where truth split: 5: (-30,-1.00), (-30,-0.67), (-30,-0.33), (+30,+0.67), (+30,+1.00)
+  final pick 23: model n_glide 19, n_split 4; RMSE over T split points 0.0347, over T glide points 0.0108
+
+--- medium seed 1
+  pick 25: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 -1.000  1.945  glide    1.699  split         1.942       1.699  -0.246
+     +30 -0.667  1.955  glide    1.770  split         1.961       1.770  -0.185
+     +30 +1.000  2.325  split    2.165  split         2.289       2.165  -0.160
+     +30 -0.333  1.995  glide    1.846  split         1.996       1.846  -0.149
+     +30 +0.667  2.225  split    2.085  split         2.195       2.085  -0.140
+  pick 25: split undercuts on T (split predicted, truth glide): 8: (-20,+0.67) glide 1.270 split 1.269 true 1.265, (-20,+1.00) glide 1.308 split 1.298 true 1.305, (+20,-1.00) glide 1.587 split 1.572 true 1.595, (+30,-1.00) glide 1.942 split 1.699 true 1.945, (+30,-0.67) glide 1.961 split 1.770 true 1.955, (+30,-0.33) glide 1.996 split 1.846 true 1.995, (+30,+0.00) glide 2.047 split 1.924 true 2.055, (+30,+0.33) glide 2.114 split 2.005 true 2.125
+  pick 25: glide predicted where truth split: 0
+  pick 25: model n_glide 17, n_split 8; RMSE over T split points 0.0714, over T glide points 0.0612
+  RMSE every 10 picks: 10:0.0420 20:0.1069 30:0.0744 40:0.0609 50:0.0613 60:0.0829
+  reached RMSE <= 0.02 at pick: 67 (RMSE 0.0072)
+  picks that were split events: 17 of 67: {'near -30': 10, 'near +27': 7, 'other': 0}
+  final pick 67: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +1.000  2.325  split    2.299  glide         2.299       2.348  -0.026
+     +30 +0.667  2.225  split    2.200  glide         2.200       2.257  -0.025
+     -30 +0.000  1.155  split    1.168  split         1.195       1.168  +0.013
+     -30 -0.667  1.155  split    1.166  split         1.167       1.166  +0.011
+     -30 -1.000  1.155  split    1.165  glide         1.165       1.173  +0.010
+  final pick 67: split undercuts on T (split predicted, truth glide): 0
+  final pick 67: glide predicted where truth split: 3: (-30,-1.00), (+30,+0.67), (+30,+1.00)
+  final pick 67: model n_glide 50, n_split 17; RMSE over T split points 0.0144, over T glide points 0.0041
+
+--- medium seed 2
+  pick 25: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +0.000  2.055  glide    1.927  split         1.994       1.927  -0.128
+     +30 -0.333  1.995  glide    1.869  split         1.951       1.869  -0.126
+     +30 +1.000  2.325  split    2.204  glide         2.204       2.370  -0.121
+     +30 +0.667  2.225  split    2.122  glide         2.122       2.200  -0.103
+     +30 -0.667  1.955  glide    1.873  split         1.923       1.873  -0.082
+  pick 25: split undercuts on T (split predicted, truth glide): 11: (-20,-0.33) glide 1.180 split 1.171 true 1.185, (-20,+0.00) glide 1.196 split 1.136 true 1.205, (-20,+0.33) glide 1.221 split 1.168 true 1.235, (-10,-0.33) glide 1.215 split 1.193 true 1.215, (-10,+0.00) glide 1.237 split 1.177 true 1.235, (-10,+0.33) glide 1.269 split 1.232 true 1.265, (+0,+0.00) glide 1.314 split 1.293 true 1.315, (+30,-0.67) glide 1.923 split 1.873 true 1.955, (+30,-0.33) glide 1.951 split 1.869 true 1.995, (+30,+0.00) glide 1.994 split 1.927 true 2.055, (+30,+0.33) glide 2.052 split 2.043 true 2.125
+  pick 25: glide predicted where truth split: 7: (-30,-1.00), (-30,-0.67), (-30,-0.33), (-30,+0.67), (-30,+1.00), (+30,+0.67), (+30,+1.00)
+  pick 25: model n_glide 19, n_split 6; RMSE over T split points 0.0543, over T glide points 0.0398
+  RMSE every 10 picks: 10:0.1346 20:0.0500 30:0.0587 40:0.2258
+  reached RMSE <= 0.02 at pick: 47 (RMSE 0.0133)
+  picks that were split events: 12 of 47: {'near -30': 6, 'near +27': 6, 'other': 0}
+  final pick 47: 5 largest |error| on T
+     chi    sig   true  ev_true    pred  ev_pred  glide_mean  split_mean     err
+     +30 +1.000  2.325  split    2.281  split         2.293       2.281  -0.044
+     +30 +0.667  2.225  split    2.187  glide         2.187       2.243  -0.038
+     +30 +0.000  2.055  glide    2.025  glide         2.025       2.168  -0.030
+     +30 -1.000  1.945  glide    1.916  glide         1.916       2.067  -0.029
+     +30 +0.333  2.125  glide    2.097  glide         2.097       2.205  -0.028
+  final pick 47: split undercuts on T (split predicted, truth glide): 1: (-20,-1.00) glide 1.165 split 1.159 true 1.165
+  final pick 47: glide predicted where truth split: 1: (+30,+0.67)
+  final pick 47: model n_glide 35, n_split 12; RMSE over T split points 0.0223, over T glide points 0.0102
+
+SUMMARY version seed picks_needed split_picks undercuts@25 undercuts@final
+   weak 0 102 17 7 2
+   weak 1 57 16 7 2
+   weak 2 54 15 42 0
+   medium 0 23 4 None 0
+   medium 1 67 17 8 0
+   medium 2 47 12 11 1
+compute time 20 s

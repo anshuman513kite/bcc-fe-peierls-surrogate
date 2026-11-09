@@ -27,3 +27,18 @@ potentials/
 # ---- build artefacts ----
 __pycache__/
 .pytest_cache/
+# ---- v0.2 publish rules (D-v02-22, 9 Nov 2026) ----
+# raw calibration logs (calibrations.csv and strain_model_prod.json are published)
+checks/14_production/calib/
+checks/14_production/calib_tmp/
+# private files
+INTERVIEW_PREP.md
+CLAUDE.local.md
+# one-off diagnostics with hard-coded paths
+scripts/v02_diag_kernels.py
+checks/11_core_gate/resume_check_crash_18-11.py
+# per-state folders of v0.2 runs (size)
+sims/09_core_gate/
+sims/10_corner_gate/
+sims/11_size_gate/
+sims/12_production/

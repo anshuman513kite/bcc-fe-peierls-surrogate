@@ -1,0 +1,70 @@
+# One stress step of the chi-dependent Peierls ramp (screw dislocation, PROVISIONAL option-2 loading, Session 10).
+# Frame: x = [111] line (periodic), y = [-110] (free surfaces), z = [-1-12] (periodic).
+# Loading: sigma_xy by surface forces (+fx on the top slab, -fx on the bottom slab, fix_modify energy yes);
+#   sigma_xz (and the cancellation of its normal stresses) by box strains: the input data file already has the calibrated
+#   Lx, Lz, xz for this tau (tools/peierls_chi.py calls tools/rebox.py when the box changes; atoms mapped affinely in x, z).
+# Trackers (only for jump detection and the halt guards; core positions come from DD maps and tools/track_core.py):
+#   band tracker (as in.step): excess-energy centroid of atoms within 4 A of y0, circular mean along z;
+#   window weight W: excess energy inside a circle of radius 6 A around the core position at the start of the step.
+# Halt guards: band displacement > halt_dist (3 jumps), or W < 0.4 * W(start) (the core has left its starting circle,
+#   which also catches glide on the +-60 deg {110} planes that the band tracker cannot follow).
+# Vars: pot datain dataout peout fx y0 Lx Lz xz ys zs maxit groups halt_dist
+# Optional (Session 11, bracket method upgrade; defaults = Session 10 settings): etol ftol maxeval dmax
+#   jiggle (random displacement, uniform in [-jiggle, jiggle] A per Cartesian component, before minimising) and seed.
+variable        etol index 1e-12
+variable        ftol index 1e-12
+variable        maxeval index 100000
+variable        dmax index 0.1
+variable        jiggle index 0
+variable        seed index 12345
+units           metal
+boundary        p s p
+atom_style      atomic
+read_data       ${datain}
+# (Session 11) the box is NOT changed here: tools/rebox.py writes datain with the target Lx, Lz, xz already set.
+# change_box ... remap stretched y by ~1e-4 on every call with the shrink-wrapped y boundary (spurious kick).
+pair_style      eam/fs
+pair_coeff      * * ${pot} Fe
+include         ${groups}
+if "${jiggle} > 0" then "displace_atoms all random ${jiggle} ${jiggle} ${jiggle} ${seed} units box"
+
+fix             ftop top addforce ${fx} 0.0 0.0
+fix             fbot bot addforce -${fx} 0.0 0.0
+fix_modify      ftop energy yes
+fix_modify      fbot energy yes
+
+compute         pea all pe/atom pair
+compute         ppair all pe pair
+variable        ex  atom ((c_pea+4.1224)>0.01)*(c_pea+4.1224)
+variable        w   atom (abs(y-${y0})<4.0)*v_ex
+variable        wc  atom v_w*cos(2*PI*z/${Lz})
+variable        ws  atom v_w*sin(2*PI*z/${Lz})
+variable        wy  atom v_w*y
+variable        dzm atom z-${zs}-${Lz}*round((z-${zs})/${Lz})
+variable        win atom ((y-${ys})^2+v_dzm^2<36.0)*v_ex
+compute         cs all reduce sum v_w v_wc v_ws v_wy v_win
+variable        cz equal atan2(c_cs[3],c_cs[2])*${Lz}/(2*PI)
+variable        cy equal c_cs[4]/c_cs[1]
+run             0
+variable        c0 equal $(c_cs[2]/c_cs[1])
+variable        s0 equal $(c_cs[3]/c_cs[1])
+variable        W0 equal $(c_cs[5])
+variable        dcz equal atan2(c_cs[3]*v_c0-c_cs[2]*v_s0,c_cs[2]*v_c0+c_cs[3]*v_s0)*${Lz}/(2*PI)
+variable        wfrac equal c_cs[5]/v_W0
+print           "START cz=$(v_cz:%.6f) cy=$(v_cy:%.6f) W=$(c_cs[5]:%.6f) pe=$(pe:%.8f) epair=$(c_ppair:%.8f)"
+thermo_style    custom step pe c_ppair fmax v_cz v_cy v_dcz v_wfrac
+thermo_modify   format float %.10g
+thermo          10
+fix             runaway all halt 10 v_dcz > ${halt_dist} error continue
+fix             runaway2 all halt 10 v_dcz < -${halt_dist} error continue
+fix             leftwin all halt 10 v_wfrac < 0.4 error continue
+
+min_style       cg
+min_modify      dmax ${dmax}
+minimize        ${etol} ${ftol} ${maxit} ${maxeval}
+print           "END fnorm=$(fnorm:%.3e) cz=$(v_cz:%.6f) cy=$(v_cy:%.6f) dcz=$(v_dcz:%.6f) wfrac=$(v_wfrac:%.4f) pe=$(pe:%.8f) epair=$(c_ppair:%.8f) fmax=$(fmax:%.3e)"
+write_data      ${dataout}
+# (Session 11) re-evaluate before the per-atom dump: after minimize, atoms lying exactly on z = 0 can be re-wrapped and change
+# rank, and the stored per-atom energies then no longer match the atoms (pe ~ 0 for a few seam atoms, 2x cell). Atoms do not move.
+run             0 post no
+write_dump      all custom ${peout} id x y z c_pea modify sort id format float %.10g

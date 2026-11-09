@@ -1,0 +1,54 @@
+{
+ "timing_seed0": {
+  "weak": {
+   "N0": 102,
+   "N_random_seed0": 6.88,
+   "al_3": 98.38,
+   "random_3": 100.97,
+   "spacefill_3": 95.7,
+   "grid_3": 3.91,
+   "al_5": 600.37,
+   "random_5": 559.66,
+   "spacefill_5": 450.44,
+   "grid_5": 13.52,
+   "al_8": 496.91,
+   "random_8": 4.93,
+   "spacefill_8": 2.67,
+   "grid_8": 0.49
+  },
+  "medium": {
+   "N0": 23,
+   "N_random_seed0": 0.97,
+   "al_3": 3.69,
+   "random_3": 1.04,
+   "spacefill_3": 1.53,
+   "grid_3": 0.62,
+   "al_5": 6.13,
+   "random_5": 5.71,
+   "spacefill_5": 6.63,
+   "grid_5": 1.24,
+   "al_8": 13.32,
+   "random_8": 2.91,
+   "spacefill_8": 16.95,
+   "grid_8": 2.11
+  },
+  "strong": {
+   "N0": 25,
+   "N_random_seed0": 1.13,
+   "al_3": 3.93,
+   "random_3": 3.3,
+   "spacefill_3": 4.05,
+   "grid_3": 0.86,
+   "al_5": 10.17,
+   "random_5": 9.09,
+   "spacefill_5": 8.3,
+   "grid_5": 1.01,
+   "al_8": 14.17,
+   "random_8": 2.62,
+   "spacefill_8": 3.36,
+   "grid_8": 1.77
+  }
+ },
+ "sequential_s": 2561.4257941246033,
+ "estimate_min": 120.81772829164775
+}

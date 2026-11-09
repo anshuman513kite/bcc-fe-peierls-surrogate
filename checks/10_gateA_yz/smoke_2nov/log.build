@@ -1,0 +1,33 @@
+LAMMPS (22 Jul 2025 - Update 6)
+  using 1 OpenMP thread(s) per MPI task
+# Gate A re-check (Session 12): build the unstrained perfect slab of checks/04_pure_shear/in.block (geom = slab) and write it.
+# No change_box: the strained boxes are written by tools/rebox.py (affine in x, z; y untouched).
+variable        a equal 2.8553
+units           metal
+atom_style      atomic
+boundary        p s p
+lattice         bcc ${a} orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+lattice         bcc 2.8553 orient x 1 1 1 orient y -1 1 0 orient z -1 -1 2
+Lattice spacing in x,y,z = 4.9455247 4.038004 4.6626854
+region          box prism 0 $(5*v_a*sqrt(3)) -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 $(10*v_a*sqrt(2)+5) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 45.380039846438990025 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          box prism 0 24.727623354257076471 -5 45.380039846438990025 0 27.976112250275232185 0 0 0 units box
+region          xtal prism 0 $(5*v_a*sqrt(3)) -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 $(10*v_a*sqrt(2)-0.001) 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 40.379039846438992356 0 $(4*v_a*sqrt(6)) 0 0 0 units box
+region          xtal prism 0 24.727623354257076471 -0.001 40.379039846438992356 0 27.976112250275232185 0 0 0 units box
+create_box      1 box
+Created triclinic box = (0 -5 0) to (24.727623 45.38004 27.976112) with tilt (0 0 0)
+  1 by 7 by 1 MPI processor grid
+create_atoms    1 region xtal
+Created 2400 atoms
+  using lattice units in triclinic box = (0 -5.005038 0) to (24.727623 45.385078 27.976112) with tilt (0 0 0)
+  create_atoms CPU = 0.002 seconds
+mass            1 55.845
+write_data      slab0.data
+System init for write_data ...
+WARNING: Communication cutoff is 0.0. No ghost atoms will be generated. Energies and forces may be wrong and atoms may get lost. (src/comm_brick.cpp:212)
+print           "BUILD atoms=$(atoms) lx=$(lx:%.6f) ly=$(ly:%.6f) lz=$(lz:%.6f)"
+BUILD atoms=2400 lx=24.727623 ly=38.371114 lz=27.976112
+Total wall time: 0:00:00

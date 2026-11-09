@@ -1,0 +1,41 @@
+RE-SCORED UNDER V02_PLAN 8.8 (smoke test, not a gate result). Source: checks/10_gateA_yz/calibration_yz.csv as committed in fc0cb2f (unmodified);
+measured stresses unchanged, only the pass rule changed (tools/gate_a.py gate_a3_check after 8.8). No LAMMPS rerun.
+
+S1: chi +0, sigma_yz 0.25
+  kind           tau   meas sxz  angle deg   tol 8.8   old   8.8
+  calibrated    0.00   +0.00000     0.0002  0.001745  PASS  PASS
+  calibrated    0.50   +0.00000     0.0002  0.001745  PASS  PASS
+  calibrated    1.00   -0.00002     0.0011  0.001745  PASS  PASS
+  calibrated    1.50   -0.00021     0.0079  0.002618  PASS  PASS
+  calibrated    2.00   -0.00114     0.0327  0.003491  PASS  PASS
+  calibrated    2.40   -0.00014     0.0033  0.004189  PASS  PASS
+  calibrated    2.70   -0.00017     0.0037  0.004712  PASS  PASS
+  calibrated    3.00   -0.00024     0.0046  0.005236  PASS  PASS
+  model_check   0.25   +0.00104     0.2395  0.001745  FAIL  PASS
+  model_check   0.75   -0.00002     0.0018  0.001745  PASS  PASS
+  model_check   1.25   -0.00104     0.0477  0.002182  PASS  PASS
+  model_check   1.75   -0.00015     0.0048  0.003054  PASS  PASS
+  model_check   2.20   +0.00024     0.0063  0.003840  PASS  PASS
+  model_check   2.55   -0.00099     0.0222  0.004451  PASS  PASS
+  model_check   2.85   -0.00046     0.0091  0.004974  PASS  PASS
+  GATE_A3 re-scored under 8.8 (smoke test, not a gate result): chi +0 syz +0.25: PASS (15/15)
+
+S2: chi +30, sigma_yz 1
+  kind           tau   meas sxz  angle deg   tol 8.8   old   8.8
+  calibrated    0.00   -0.00001     0.0007  0.001745  PASS  PASS
+  calibrated    0.50   +0.24990     0.0113  0.001745  PASS  PASS
+  calibrated    1.00   +0.49959     0.0234  0.001745  PASS  PASS
+  calibrated    1.50   +0.75004     0.0016  0.002618  PASS  PASS
+  calibrated    2.00   +1.00008     0.0023  0.003491  PASS  PASS
+  calibrated    2.40   +1.19853     0.0352  0.004189  PASS  PASS
+  calibrated    2.70   +1.35007     0.0015  0.004712  PASS  PASS
+  calibrated    3.00   +1.50004     0.0007  0.005236  PASS  PASS
+  model_check   0.25   +0.12548     0.1098  0.001745  PASS  PASS
+  model_check   0.75   +0.37483     0.0129  0.001745  PASS  PASS
+  model_check   1.25   +0.62416     0.0386  0.002182  PASS  PASS
+  model_check   1.75   +0.87517     0.0055  0.003054  PASS  PASS
+  model_check   2.20   +1.10040     0.0103  0.003840  PASS  PASS
+  model_check   2.55   +1.27372     0.0287  0.004451  PASS  PASS
+  model_check   2.85   +1.42398     0.0206  0.004974  PASS  PASS
+  GATE_A3 re-scored under 8.8 (smoke test, not a gate result): chi +30 syz +1: PASS (15/15)
+

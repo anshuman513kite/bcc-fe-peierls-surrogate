@@ -11,12 +11,21 @@
 # Vars: pot datain dataout peout fx y0 Lx Lz xz ys zs maxit groups halt_dist
 # Optional (Session 11, bracket method upgrade; defaults = Session 10 settings): etol ftol maxeval dmax
 #   jiggle (random displacement, uniform in [-jiggle, jiggle] A per Cartesian component, before minimising) and seed.
+# Optional (v0.2, 2 Nov 2026): fz, fzb = surface force along z per slab atom (eV/A) on the top / bottom slab for sigma_yz
+#   (the driver passes fzb = -fz as its own string, so a negative sigma_yz never produces "--"). Defaults 0.0: the fix
+#   commands then read exactly as in v0.1 ("addforce <fx> 0.0 0.0", "addforce -<fx> 0.0 0.0").
+# Optional (v0.2, 3 Nov 2026): fxb = the bottom-slab x force. Default: minus fx (the v0.1 text); the driver passes it as its own
+#   string only when fx < 0 (a slightly negative sigma_xy correction at tau = 0), where the default would read "--..." (crash of
+#   the first step-4 launch, 3 Nov 18:11).
 variable        etol index 1e-12
 variable        ftol index 1e-12
 variable        maxeval index 100000
 variable        dmax index 0.1
 variable        jiggle index 0
 variable        seed index 12345
+variable        fz index 0.0
+variable        fzb index 0.0
+variable        fxb index -${fx}
 units           metal
 boundary        p s p
 atom_style      atomic
@@ -28,8 +37,8 @@ pair_coeff      * * ${pot} Fe
 include         ${groups}
 if "${jiggle} > 0" then "displace_atoms all random ${jiggle} ${jiggle} ${jiggle} ${seed} units box"
 
-fix             ftop top addforce ${fx} 0.0 0.0
-fix             fbot bot addforce -${fx} 0.0 0.0
+fix             ftop top addforce ${fx} 0.0 ${fz}
+fix             fbot bot addforce ${fxb} 0.0 ${fzb}
 fix_modify      ftop energy yes
 fix_modify      fbot energy yes
 

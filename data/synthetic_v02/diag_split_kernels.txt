@@ -1,0 +1,15 @@
+weak seed 2 pick 25: RMSE 0.1950; split points chi [-25.6, 25.6, 26.9, 28.1, 28.1]; split prior mean 2.125
+   split kernel: 2.87**2 * RBF(length_scale=[1.09, 12.5]) + WhiteKernel(noise_level=0.000113)
+   at sigma 0, chi -20..20: split [1.104, 1.011, 1.042, 1.222, 1.535] glide [1.202, 1.237, 1.313, 1.446, 1.677]
+weak seed 0 pick 25: RMSE 0.0240; split points chi [-30.0, -30.0, 26.9, 28.1]; split prior mean 1.985
+   split kernel: 2.23**2 * RBF(length_scale=[0.182, 100]) + WhiteKernel(noise_level=0.000127)
+   at sigma 0, chi -20..20: split [1.831, 1.984, 1.985, 1.973, 1.645] glide [1.208, 1.236, 1.315, 1.45, 1.676]
+weak seed 0 pick 50: RMSE 0.1262; split points chi [-30.0, -30.0, -28.1, -28.1, 26.9, 26.9, 28.1, 28.1]; split prior mean 1.985
+   split kernel: 2.87**2 * RBF(length_scale=[0.732, 15.5]) + WhiteKernel(noise_level=0.000144)
+   at sigma 0, chi -20..20: split [1.203, 1.209, 1.168, 1.222, 1.52] glide [1.204, 1.237, 1.315, 1.451, 1.677]
+weak seed 1 pick 40: RMSE 0.1363; split points chi [-29.4, -29.4, -28.1, -26.9, -26.9, -26.9, -26.9, -23.1, 26.9, 26.9, 28.1, 28.1]; split prior mean 2.045
+   split kernel: 1.98**2 * RBF(length_scale=[0.56, 6.91]) + WhiteKernel(noise_level=0.000131)
+   at sigma 0, chi -20..20: split [1.256, 1.412, 1.354, 1.207, 1.421] glide [1.205, 1.239, 1.319, 1.452, 1.676]
+medium seed 2 pick 25: RMSE 0.0428; split points chi [-25.6, -21.9, 26.9, 28.1, 28.1, 30.0]; split prior mean 2.255
+   split kernel: 2.34**2 * RBF(length_scale=[1.43, 1.57]) + WhiteKernel(noise_level=0.000577)
+   at sigma 0, chi -20..20: split [1.136, 1.177, 1.293, 1.473, 1.694] glide [1.196, 1.237, 1.314, 1.451, 1.674]

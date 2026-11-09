@@ -1,0 +1,216 @@
+{
+ "section": "V02_PLAN 8.5",
+ "N": 47,
+ "cells": {
+  "3": {
+   "pool": 140,
+   "advantage": {
+    "median": 0.5,
+    "ci90": [
+     -4.0,
+     3.5249999999999773
+    ],
+    "per_seed": [
+     -8,
+     43,
+     -24,
+     3,
+     -1,
+     4,
+     -8,
+     3,
+     7,
+     6,
+     1,
+     -12,
+     -1,
+     20,
+     -4,
+     0,
+     4,
+     9,
+     -4,
+     -11
+    ]
+   },
+   "medians": {
+    "al": 31.5,
+    "random": 29.5,
+    "spacefill": 21.5,
+    "grid": 141
+   },
+   "al_wins_strict": 3
+  },
+  "5": {
+   "pool": 234,
+   "advantage": {
+    "median": 6.0,
+    "ci90": [
+     -1.0,
+     15.0
+    ],
+    "per_seed": [
+     11,
+     -6,
+     7,
+     -11,
+     3,
+     -41,
+     26,
+     16,
+     19,
+     26,
+     -4,
+     13,
+     -1,
+     5,
+     -31,
+     2,
+     64,
+     15,
+     18,
+     -13
+    ]
+   },
+   "medians": {
+    "al": 32.0,
+    "random": 42.5,
+    "spacefill": 22.5,
+    "grid": 235
+   },
+   "al_wins_strict": 5
+  },
+  "8": {
+   "pool": 376,
+   "advantage": {
+    "median": 20.0,
+    "ci90": [
+     4.0,
+     30.0
+    ],
+    "per_seed": [
+     52,
+     20,
+     -148,
+     27,
+     20,
+     -1,
+     54,
+     34,
+     21,
+     123,
+     -13,
+     56,
+     -19,
+     -3,
+     -17,
+     13,
+     57,
+     4,
+     30,
+     16
+    ]
+   },
+   "medians": {
+    "al": 30.0,
+    "random": 52.0,
+    "spacefill": 28.5,
+    "grid": 51
+   },
+   "al_wins_strict": 7
+  },
+  "12": {
+   "pool": 564,
+   "advantage": {
+    "median": 3.0,
+    "ci90": [
+     -7.0,
+     30.67499999999984
+    ],
+    "per_seed": [
+     -7,
+     45,
+     -19,
+     27,
+     -305,
+     34,
+     -14,
+     -8,
+     3,
+     48,
+     -18,
+     -46,
+     59,
+     34,
+     4,
+     3,
+     68,
+     45,
+     -2,
+     1
+    ]
+   },
+   "medians": {
+    "al": 42.0,
+    "random": 53.5,
+    "spacefill": 24.5,
+    "grid": 24
+   },
+   "al_wins_strict": 0
+  },
+  "16": {
+   "pool": 752,
+   "advantage": {
+    "median": -4.5,
+    "ci90": [
+     -20.0,
+     11.0
+    ],
+    "per_seed": [
+     -6,
+     -28,
+     58,
+     11,
+     -20,
+     4,
+     -16,
+     -90,
+     -29,
+     80,
+     1,
+     -26,
+     -3,
+     -48,
+     24,
+     -31,
+     41,
+     27,
+     -6,
+     26
+    ]
+   },
+   "medians": {
+    "al": 52.5,
+    "random": 53.5,
+    "spacefill": 27.5,
+    "grid": 18
+   },
+   "al_wins_strict": 0
+  }
+ },
+ "why": [
+  "3N -> 5N: median +6.0 vs interval at 3N [-4.0, +3.5]: grows",
+  "5N -> 8N: median +20.0 vs interval at 5N [-1.0, +15.0]: grows",
+  "8N -> 12N: median +3.0 vs interval at 8N [+4.0, +30.0]: stops growing"
+ ],
+ "strong_chosen_k": 8,
+ "strong_still_growing_at_cap": false,
+ "chosen_sizes": {
+  "weak": 164,
+  "medium": 136,
+  "strong": 376
+ },
+ "overall_size": 376,
+ "nights": 8,
+ "seconds": 736
+}

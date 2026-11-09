@@ -1,0 +1,841 @@
+{
+ "summary": {
+  "P1prime_runs": 30,
+  "P2_runs": 30,
+  "P1_original_runs_descriptive": 17,
+  "median_picks": {
+   "weak": 40.0,
+   "medium": 55.5,
+   "strong": 60.5
+  },
+  "seconds": 148,
+  "P1prime_pass": true,
+  "P2_pass": true
+ },
+ "runs": [
+  {
+   "version": "weak",
+   "seed": 120,
+   "model": "EventGPD",
+   "picks_needed": 52,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.0004897293014252029,
+   "rmse_final": 0.0056613031489799,
+   "p1": true,
+   "p2": true,
+   "seconds": 32.6,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 121,
+   "model": "EventGPD",
+   "picks_needed": 34,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 6.323180464914632e-06,
+   "rmse_final": 0.0045732299636122,
+   "p1": true,
+   "p2": true,
+   "seconds": 28.5,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 122,
+   "model": "EventGPD",
+   "picks_needed": 32,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.04552568574907336,
+   "rmse_final": 0.005796297247253407,
+   "p1": true,
+   "p2": true,
+   "seconds": 36.8,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 123,
+   "model": "EventGPD",
+   "picks_needed": 46,
+   "final_pick": 100,
+   "wrong_event_final": 1,
+   "wrong_costly": 1,
+   "wrong_max_err": 0.039989838892195984,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 1.0,
+     "true": "glide",
+     "p": 0.6746792405540418,
+     "gap": 0.007903845593448366,
+     "err": -0.039989838892195984
+    }
+   ],
+   "max_rise": 0.03841531120288222,
+   "rmse_final": 0.007888776986798761,
+   "p1": true,
+   "p2": true,
+   "seconds": 30.7,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 124,
+   "model": "EventGPD",
+   "picks_needed": 27,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": -0.0002312680796524697,
+   "rmse_final": 0.00385565302602468,
+   "p1": true,
+   "p2": true,
+   "seconds": 27.6,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 125,
+   "model": "EventGPD",
+   "picks_needed": 26,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.00011022807995868678,
+   "rmse_final": 0.005035127343181658,
+   "p1": true,
+   "p2": true,
+   "seconds": 25.1,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 126,
+   "model": "EventGPD",
+   "picks_needed": 27,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.0001218334875676629,
+   "rmse_final": 0.0038875385205511264,
+   "p1": true,
+   "p2": true,
+   "seconds": 28.4,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 127,
+   "model": "EventGPD",
+   "picks_needed": 63,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": -9.273676546210294e-06,
+   "rmse_final": 0.008313111111500028,
+   "p1": true,
+   "p2": true,
+   "seconds": 30.0,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 128,
+   "model": "EventGPD",
+   "picks_needed": 68,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.0009383998389328775,
+   "rmse_final": 0.005963547575875207,
+   "p1": true,
+   "p2": true,
+   "seconds": 31.7,
+   "p1prime": true
+  },
+  {
+   "version": "weak",
+   "seed": 129,
+   "model": "EventGPD",
+   "picks_needed": 67,
+   "final_pick": 100,
+   "wrong_event_final": 1,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.014406957465257442,
+   "wrong_points": [
+    {
+     "chi": -30.0,
+     "sig": -1.0,
+     "true": "split",
+     "p": 0.7429667756421736,
+     "gap": 0.03603125878411828,
+     "err": 0.014406957465257442
+    }
+   ],
+   "max_rise": 0.0028164338536080177,
+   "rmse_final": 0.006660389025051471,
+   "p1": true,
+   "p2": true,
+   "seconds": 27.8,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 120,
+   "model": "EventGPD",
+   "picks_needed": 54,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.009339215797211973,
+   "rmse_final": 0.009451073118684544,
+   "p1": true,
+   "p2": true,
+   "seconds": 35.8,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 121,
+   "model": "EventGPD",
+   "picks_needed": 17,
+   "final_pick": 100,
+   "wrong_event_final": 1,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.014943126855316624,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.784703983160739,
+     "gap": 0.010630974488919698,
+     "err": -0.014943126855316624
+    }
+   ],
+   "max_rise": 0.0003998922579794362,
+   "rmse_final": 0.004677850063611853,
+   "p1": true,
+   "p2": true,
+   "seconds": 33.3,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 122,
+   "model": "EventGPD",
+   "picks_needed": 57,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 1,
+   "wrong_max_err": 0.0240209819348558,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.6647882890210894,
+     "gap": 0.010630974488919698,
+     "err": -0.0240209819348558
+    },
+    {
+     "chi": 30.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.746310510021317,
+     "gap": 0.031111814417379424,
+     "err": -0.018986538301550837
+    }
+   ],
+   "max_rise": 0.007465764082132016,
+   "rmse_final": 0.008299644898513453,
+   "p1": false,
+   "p2": true,
+   "seconds": 36.6,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 123,
+   "model": "EventGPD",
+   "picks_needed": 90,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.004424588392247353,
+   "wrong_points": [
+    {
+     "chi": -30.0,
+     "sig": -1.0,
+     "true": "split",
+     "p": 0.6962987311576967,
+     "gap": 0.01657707422878607,
+     "err": 0.004424588392247353
+    },
+    {
+     "chi": -30.0,
+     "sig": -0.6666666666666666,
+     "true": "split",
+     "p": 0.8240463242844953,
+     "gap": 0.026075460832920783,
+     "err": 0.0022354932436137176
+    }
+   ],
+   "max_rise": 0.016501870908687193,
+   "rmse_final": 0.008093825025666008,
+   "p1": false,
+   "p2": true,
+   "seconds": 30.9,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 124,
+   "model": "EventGPD",
+   "picks_needed": 27,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.0005686419011965635,
+   "rmse_final": 0.003950417465483664,
+   "p1": true,
+   "p2": true,
+   "seconds": 33.7,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 125,
+   "model": "EventGPD",
+   "picks_needed": 27,
+   "final_pick": 100,
+   "wrong_event_final": 1,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.00978029976859407,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.43892812818701543,
+     "gap": 0.010630974488919698,
+     "err": -0.00978029976859407
+    }
+   ],
+   "max_rise": 0.004553831849136405,
+   "rmse_final": 0.008410531129620653,
+   "p1": true,
+   "p2": true,
+   "seconds": 30.6,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 126,
+   "model": "EventGPD",
+   "picks_needed": 35,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": 0.00035923820474882597,
+   "rmse_final": 0.004385566548556589,
+   "p1": true,
+   "p2": true,
+   "seconds": 31.4,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 127,
+   "model": "EventGPD",
+   "picks_needed": 63,
+   "final_pick": 100,
+   "wrong_event_final": 0,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0,
+   "wrong_points": [],
+   "max_rise": -2.1893423639580273e-06,
+   "rmse_final": 0.00711284712996378,
+   "p1": true,
+   "p2": true,
+   "seconds": 33.1,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 128,
+   "model": "EventGPD",
+   "picks_needed": 68,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.010986828680620508,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.8349556434625356,
+     "gap": 0.010630974488919698,
+     "err": -0.010986828680620508
+    },
+    {
+     "chi": 30.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.8192266299139419,
+     "gap": 0.031111814417379424,
+     "err": 0.0028854133934443915
+    }
+   ],
+   "max_rise": 0.036881298957939124,
+   "rmse_final": 0.005099512080694932,
+   "p1": false,
+   "p2": true,
+   "seconds": 33.8,
+   "p1prime": true
+  },
+  {
+   "version": "medium",
+   "seed": 129,
+   "model": "EventGPD",
+   "picks_needed": 67,
+   "final_pick": 100,
+   "wrong_event_final": 4,
+   "wrong_costly": 1,
+   "wrong_max_err": 0.021530815329642072,
+   "wrong_points": [
+    {
+     "chi": -30.0,
+     "sig": -1.0,
+     "true": "split",
+     "p": 0.8009323981132184,
+     "gap": 0.01657707422878607,
+     "err": 0.00027655793479053337
+    },
+    {
+     "chi": -30.0,
+     "sig": -0.6666666666666666,
+     "true": "split",
+     "p": 0.819366652902545,
+     "gap": 0.026075460832920783,
+     "err": 0.007672023981803999
+    },
+    {
+     "chi": -30.0,
+     "sig": -0.3333333333333333,
+     "true": "split",
+     "p": 0.8338335375024144,
+     "gap": 0.035829402992610726,
+     "err": 0.021530815329642072
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.49924864506408295,
+     "gap": 0.010630974488919698,
+     "err": -0.013648959231782332
+    }
+   ],
+   "max_rise": 0.011622168883106555,
+   "rmse_final": 0.011244856052531735,
+   "p1": false,
+   "p2": true,
+   "seconds": 34.8,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 120,
+   "model": "EventGPD",
+   "picks_needed": 55,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.013945353758737955,
+   "wrong_points": [
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.5742213153443743,
+     "gap": 0.010534770768448443,
+     "err": 3.164325544879887e-05
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.9319242728366817,
+     "gap": 0.010522495157400336,
+     "err": -0.013945353758737955
+    }
+   ],
+   "max_rise": 0.005807439836504582,
+   "rmse_final": 0.015739514817750884,
+   "p1": false,
+   "p2": true,
+   "seconds": 32.7,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 121,
+   "model": "EventGPD",
+   "picks_needed": 62,
+   "final_pick": 100,
+   "wrong_event_final": 1,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.008679676547242998,
+   "wrong_points": [
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.8108706704922497,
+     "gap": 0.010522495157400336,
+     "err": -0.008679676547242998
+    }
+   ],
+   "max_rise": 0.04551286943168985,
+   "rmse_final": 0.011354443363696879,
+   "p1": true,
+   "p2": true,
+   "seconds": 32.6,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 122,
+   "model": "EventGPD",
+   "picks_needed": 59,
+   "final_pick": 100,
+   "wrong_event_final": 3,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.006645795106646091,
+   "wrong_points": [
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.2652378706309264,
+     "gap": 0.010534770768448443,
+     "err": 0.002240697210619036
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.887935119230292,
+     "gap": 0.010522495157400336,
+     "err": -0.006645795106646091
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.9332524400755347,
+     "gap": 0.0522278058974206,
+     "err": 0.006115297015330423
+    }
+   ],
+   "max_rise": 0.043378476267091355,
+   "rmse_final": 0.007579743959044529,
+   "p1": false,
+   "p2": true,
+   "seconds": 37.9,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 123,
+   "model": "EventGPD",
+   "picks_needed": 82,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.015401394836046967,
+   "wrong_points": [
+    {
+     "chi": -20.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.44077375749868963,
+     "gap": 0.00835647788859939,
+     "err": 0.015401394836046967
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.9186316020737877,
+     "gap": 0.010522495157400336,
+     "err": -0.009770686469638079
+    }
+   ],
+   "max_rise": 0.000990179869691965,
+   "rmse_final": 0.007644109210894222,
+   "p1": false,
+   "p2": true,
+   "seconds": 30.9,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 124,
+   "model": "EventGPD",
+   "picks_needed": 36,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 1,
+   "wrong_max_err": 0.022395645552192534,
+   "wrong_points": [
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.3800911733548844,
+     "gap": 0.010534770768448443,
+     "err": 0.0009105078808198108
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.0,
+     "true": "glide",
+     "p": 0.6518949940838183,
+     "gap": 0.024818083824283743,
+     "err": -0.022395645552192534
+    }
+   ],
+   "max_rise": 0.04141518498291773,
+   "rmse_final": 0.02043340339875614,
+   "p1": false,
+   "p2": true,
+   "seconds": 32.8,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 125,
+   "model": "EventGPD",
+   "picks_needed": 94,
+   "final_pick": 100,
+   "wrong_event_final": 3,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.010179774423742849,
+   "wrong_points": [
+    {
+     "chi": -30.0,
+     "sig": -1.0,
+     "true": "glide",
+     "p": 0.6688603903613171,
+     "gap": 0.011395957913135302,
+     "err": 0.004489225485346804
+    },
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.589559731604993,
+     "gap": 0.010534770768448443,
+     "err": 0.0076301311120854365
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.8481281740429267,
+     "gap": 0.010522495157400336,
+     "err": -0.010179774423742849
+    }
+   ],
+   "max_rise": 0.009127356254075125,
+   "rmse_final": 0.015582567209788206,
+   "p1": false,
+   "p2": true,
+   "seconds": 32.5,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 126,
+   "model": "EventGPD",
+   "picks_needed": 30,
+   "final_pick": 100,
+   "wrong_event_final": 3,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.0065337502189968255,
+   "wrong_points": [
+    {
+     "chi": -30.0,
+     "sig": -0.6666666666666666,
+     "true": "split",
+     "p": 0.580628121062631,
+     "gap": 0.007010117890607459,
+     "err": 0.0029648476088275366
+    },
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.15451418595750965,
+     "gap": 0.010534770768448443,
+     "err": 0.002055914184329044
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.8872339003410161,
+     "gap": 0.010522495157400336,
+     "err": -0.0065337502189968255
+    }
+   ],
+   "max_rise": 0.005913961236722196,
+   "rmse_final": 0.008141101156335182,
+   "p1": false,
+   "p2": true,
+   "seconds": 27.5,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 127,
+   "model": "EventGPD",
+   "picks_needed": 42,
+   "final_pick": 100,
+   "wrong_event_final": 3,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.010320507917580546,
+   "wrong_points": [
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.3957697592529428,
+     "gap": 0.010534770768448443,
+     "err": -0.004147578885237202
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.9762541310898314,
+     "gap": 0.010522495157400336,
+     "err": -0.010320507917580546
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.9714829170068242,
+     "gap": 0.0522278058974206,
+     "err": -0.0011681635864744244
+    }
+   ],
+   "max_rise": 0.0006345978027937939,
+   "rmse_final": 0.005697565771208046,
+   "p1": false,
+   "p2": true,
+   "seconds": 28.9,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 128,
+   "model": "EventGPD",
+   "picks_needed": 100,
+   "final_pick": 100,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.009383839148693784,
+   "wrong_points": [
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.2689331304983966,
+     "gap": 0.010534770768448443,
+     "err": -0.005324795713702812
+    },
+    {
+     "chi": 30.0,
+     "sig": 0.3333333333333333,
+     "true": "split",
+     "p": 0.8580133290829508,
+     "gap": 0.010522495157400336,
+     "err": -0.009383839148693784
+    }
+   ],
+   "max_rise": -0.0015104182241918312,
+   "rmse_final": 0.005943356185464019,
+   "p1": false,
+   "p2": true,
+   "seconds": 23.5,
+   "p1prime": true
+  },
+  {
+   "version": "strong",
+   "seed": 129,
+   "model": "EventGPD",
+   "picks_needed": 108,
+   "final_pick": 108,
+   "wrong_event_final": 2,
+   "wrong_costly": 0,
+   "wrong_max_err": 0.010497005114734614,
+   "wrong_points": [
+    {
+     "chi": -20.0,
+     "sig": 0.6666666666666666,
+     "true": "split",
+     "p": 0.41653219783438544,
+     "gap": 0.00835647788859939,
+     "err": 0.010497005114734614
+    },
+    {
+     "chi": 20.0,
+     "sig": 1.0,
+     "true": "split",
+     "p": 0.13912187351820648,
+     "gap": 0.010534770768448443,
+     "err": 0.0008812013731267498
+    }
+   ],
+   "max_rise": 0.01285148978320702,
+   "rmse_final": 0.013284422144936645,
+   "p1": false,
+   "p2": true,
+   "seconds": 26.0,
+   "p1prime": true
+  }
+ ]
+}

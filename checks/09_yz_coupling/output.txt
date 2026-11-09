@@ -1,0 +1,4 @@
+column 4 (gamma_yz -> sigma_i): xx=+0.000 yy=+0.000 zz=+0.000 yz=+93.714 xz=+0.000 xy=+31.504
+slab, 1 GPa sigma_yz by surface forces, box strains unchanged:
+  strains: xx=+0.000000 yy=+0.000000 zz=+0.000000 yz=+0.012528 xz=+0.000000 xy=-0.005525
+  stresses: xx=+0.00000 yy=-0.00000 zz=+0.00000 yz=+1.00000 xz=+0.00000 xy=-0.00000

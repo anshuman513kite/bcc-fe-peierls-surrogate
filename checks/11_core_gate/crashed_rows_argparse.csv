@@ -1,0 +1,5 @@
+run,idx,phase,chi,syz,tau,level,model_key,dd_dy,dd_dz,orient,topcol_b,shift_A,core_ok,fail_cond,stab_returned,rev_dr_A,rev_dE_eV,nonaffine_step_A,nonaffine_cum_A,review,pe_eV,fmax,fnorm,stop,alpha_zero,offaxis_tau0,start_vs_cell_dr_A,seconds,pass,data
+chi-30_p,16,stab1,-30,0.75,0.6,0.75,"-30,+0.75",,,,,,,,no,,,,,,,,,,,,,0.1,no,
+chi-30_p,17,stab2,-30,0.75,0.6,0.75,"-30,+0.75",,,,,,,,no,,,,,,,,,,,,,0.1,no,
+chi-30_m,16,stab1,-30,-0.75,0.6,0.75,"-30,-0.75",,,,,,,,no,,,,,,,,,,,,,0.1,no,
+chi-30_m,17,stab2,-30,-0.75,0.6,0.75,"-30,-0.75",,,,,,,,no,,,,,,,,,,,,,0.1,no,

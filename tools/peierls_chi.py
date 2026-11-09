@@ -2,7 +2,7 @@
 
 Usage (from the run folder; launch with tools/launch_safe.sh):
   python peierls_chi.py <relaxed.data> <y0> <z0> <name> --chi DEG [--model strain_model.json] [--nocorr]
-                        [--coarse 0:2.4:0.05] [--fine 0.01] [--maxit 10000] [--np NP] [--nz 21]
+                        --coarse LO:HI:STEP [--fine 0.01] [--maxit 10000] [--np NP] [--nz 21]
 <relaxed.data> must be the UNSTRAINED relaxed cell (its box is the reference for the box strains); (y0, z0) = inserted core.
 Loading at applied tau (GPa): sigma_xy = tau*cos(chi) by surface forces, sigma_xz = tau*sin(chi) by box strains
   eps_xx, eps_zz, gamma_xz = LIN*tau*sin(chi) + q2 tau^2 + q3 tau^3 + q4 tau^4 (checks/07_chi_calibration/strain_model.json),
@@ -14,6 +14,12 @@ Peierls stress (Ansh's definition): first tau at which no stable state remains i
   easy -> split transition (top column >= 1.4 b); column `event`. --moved dd_d1: rule D1 (Session 13; label-dependent),
   --moved dd_s12: the Session 11-12 rule (any site change > 0.01 A); both kept only to reproduce old runs. Before the fix (--moved tracker): tools/track_core.py shift >= one jump (2.331 A), which missed a
   one-site jump at chi = -30/-24 because the energy centroid moved only ~1.98 A. The tracker still sets the 6 A window. Coarse steps until the first move, then 10 MPa steps from the last unmoved state.
+v0.2 (2 Nov 2026): --syz S applies the non-glide stress sigma_yz = S (GPa) by surface forces along z on the same slabs.
+  Load path (Ansh, V02_PLAN section 8 Q1): a pre-ramp at tau = 0 in steps <= 0.25 GPa up to S (rows kind 'preyz'; the start
+  site is taken from the first of them, and a move during the pre-ramp ends the run without a bracket), then the usual tau
+  ramp at fixed S (its tau = 0 step is skipped: it is the last pre-ramp state). Intermediate pre-ramp steps use the
+  uncorrected loading; the last one and the tau ramp use the strain-model entry --model_key (default: the chi entry).
+  With --syz 0 (default) every LAMMPS command is exactly the v0.1 one (tests/test_v02_loading.py).
 Each step starts from the previous relaxed configuration. Writes steps/, ../../data/<name>.csv, ../../logs/<name>.log,
 and DD maps (tools/ddmap_data.py) of the last unmoved and first moved states in ../../figures/ddmap_<name>_*.png.
 """
@@ -22,10 +28,10 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rebox import rebox
 from moved_rule import classify, classify_d1, is_moved, dd_state, EVENT_NAME
+from loading_v02 import surface_force, syz_ladder, step_cmd, model_correction, syz_correction
 
 A0 = 2.8553
 JUMP = A0 * np.sqrt(6) / 3
-GPA_A2_TO_EV_A = 1e9 * 1e-20 / 1.602176634e-19 * 1e-10
 HALT_JUMPS = 3
 LIN = np.array([0.0, 0.0027625, 0.0164349])          # (eps_xx, eps_zz, gamma_xz) per GPa of pure sigma_xz, slab (Session 9)
 
@@ -33,7 +39,10 @@ ap = argparse.ArgumentParser()
 ap.add_argument("data"); ap.add_argument("y0", type=float); ap.add_argument("z0", type=float); ap.add_argument("name")
 ap.add_argument("--chi", type=float, required=True)
 ap.add_argument("--model", default=None); ap.add_argument("--nocorr", action="store_true")
-ap.add_argument("--coarse", default="0:2.4:0.05"); ap.add_argument("--fine", type=float, default=0.01)
+ap.add_argument("--syz", type=float, default=0.0, help="v0.2: sigma_yz (GPa) by surface forces along z, applied first at tau = 0")
+ap.add_argument("--model_key", default=None, help="v0.2: strain-model entry to use (default: the chi entry, as in v0.1)")
+ap.add_argument("--coarse", required=True, help="ramp LO:HI:STEP in GPa, required (V02_PLAN 8.7: no silent 2.4 GPa top); "
+                "v0.1 runs passed 0:2.4:0.05, v0.2 runs pass 0:3.0:0.05"); ap.add_argument("--fine", type=float, default=0.01)
 ap.add_argument("--maxit", type=int, default=10000)
 ap.add_argument("--np", type=int, default=int(os.environ.get("NP", os.cpu_count() - 1)))
 ap.add_argument("--nz", type=int, default=21)
@@ -79,14 +88,14 @@ with open("groups.lmp", "w") as f:
 
 # ---- loading model ----
 if args.nocorr or args.model is None:
-    Q = np.zeros((3, 4))
+    ENTRY = None
 else:
-    m = json.load(open(args.model))["correction"][str(int(round(args.chi)))]
-    Q = np.array([m["q2"], m["q3"], m["q4"]])
+    ENTRY = json.load(open(args.model))["correction"][args.model_key or str(int(round(args.chi)))]
 
 
-def loading(tau):
-    c = Q[0] * tau ** 2 + Q[1] * tau ** 3 + Q[2] * tau ** 4
+def loading(tau, corrected=True):
+    c = model_correction(ENTRY, tau) if (ENTRY is not None and corrected) else np.zeros(4)
+    loading.dsyz = syz_correction(c)                  # v0.2 entries: correction of the sigma_yz surface stress (0 for v0.1)
     e = LIN * tau * np.sin(chi) + c[:3]
     return e, tau * np.cos(chi) + c[3]                # (eps_xx, eps_zz, gamma_xz), surface-force stress
 
@@ -111,9 +120,10 @@ def dd_site(data):
     return dd_state(data, ".", args.nz, "steps/_dd_site.png")
 
 
-def run_step(tau, datain, kind, start_core):
-    tag = f"{kind}_{tau:.3f}"
-    e, sxy = loading(tau)
+def run_step(tau, datain, kind, start_core, syz=None, corrected=True):
+    syz = args.syz if syz is None else syz
+    tag = f"{kind}_{tau:.3f}" if kind != "preyz" else f"preyz_{syz:+.3f}"
+    e, sxy = loading(tau, corrected)
     Lx, Lz = LX0 * (1 + e[0]), LZ0 * (1 + e[1])
     xz = XZ0 + e[2] * Lz
     fx = sxy * Lx * Lz * GPA_A2_TO_EV_A / len(top)
@@ -124,12 +134,10 @@ def run_step(tau, datain, kind, start_core):
     bxz = float(next(l for l in H if l.rstrip().endswith("xy xz yz")).split()[1])
     if max(abs(bx - Lx), abs(bz - Lz), abs(bxz - xz)) > 1e-12:
         rebox(datain, f"steps/{tag}.in.data", Lx, Lz, xz); datain = f"steps/{tag}.in.data"
-    cmd = ["mpirun", "-np", str(args.np), "lmp", "-in", f"{root}/tools/in.step_chi", "-screen", "none", "-log", f"steps/log.{tag}",
-           "-var", "pot", POT, "-var", "datain", datain, "-var", "dataout", f"steps/{tag}.data", "-var", "peout", f"steps/{tag}.pe",
-           "-var", "fx", f"{fx:.10f}", "-var", "y0", f"{args.y0}", "-var", "Lx", f"{Lx:.10f}", "-var", "Lz", f"{Lz:.10f}",
-           "-var", "xz", f"{xz:.10f}", "-var", "ys", f"{ys:.6f}", "-var", "zs", f"{zs:.6f}", "-var", "maxit", str(args.maxit),
-           "-var", "groups", "groups.lmp", "-var", "halt_dist", f"{HALT_JUMPS * JUMP:.4f}",
-           "-var", "etol", args.etol, "-var", "ftol", args.ftol, "-var", "dmax", args.dmax, "-var", "maxeval", str(args.maxeval)]
+    fz = surface_force(syz + loading.dsyz, Lx, Lz, len(top)) if syz != 0.0 else None
+    cmd = step_cmd(args.np, f"{root}/tools/in.step_chi", f"steps/log.{tag}", POT, datain, f"steps/{tag}.data", f"steps/{tag}.pe",
+                   fx, args.y0, Lx, Lz, xz, ys, zs, args.maxit, "groups.lmp", HALT_JUMPS * JUMP,
+                   args.etol, args.ftol, args.dmax, args.maxeval, fz=fz)
     t = time.time()
     rc = subprocess.run(cmd).returncode
     log = open(f"steps/log.{tag}").read()
@@ -144,7 +152,7 @@ def run_step(tau, datain, kind, start_core):
     yc, zc = track(f"steps/{tag}.pe", ys, zs, Lz)
     zc_ref = zc / (1 + e[1])                                   # core z mapped back to the unstrained cell
     ds = dd_site(f"steps/{tag}.data")
-    return dict(kind=kind, tau_GPa=tau, chi_deg=args.chi, sxy_target=tau * np.cos(chi), sxz_target=tau * np.sin(chi),
+    return dict(kind=kind, tau_GPa=tau, chi_deg=args.chi, syz_GPa=syz, sxy_target=tau * np.cos(chi), sxz_target=tau * np.sin(chi),
                 sxy_surface=sxy, eps_xx=e[0], eps_zz=e[1], gamma_xz=e[2], E_total_eV=float(end["pe"]), E_pair_eV=float(end["epair"]),
                 core_y_A=yc, core_z_ref_A=zc_ref % LZ0, band_dz_step_A=float(end["dcz"]), wfrac=float(end["wfrac"]),
                 fmax=float(end["fmax"]), iterations=int(it.group(1)) if it else -1, stop=stop,
@@ -201,6 +209,24 @@ say(f"minimiser: CG, etol {args.etol}, ftol {args.ftol} (2-norm of the force vec
 say(f"ramp: coarse {coarse[0]}..{coarse[-1]} GPa step {st}, then {args.fine} GPa refinement; jump = {JUMP:.4f} A")
 prev, prev_core = args.data, (tuple(map(float, args.start_core.split(","))) if args.start_core else (args.y0, args.z0))
 last_unmoved, first_moved = None, None
+ladder = syz_ladder(args.syz)
+if ladder:
+    say(f"sigma_yz pre-ramp at tau = 0: {', '.join(f'{v:+.3f}' for v in ladder)} GPa")
+    for k, v in enumerate(ladder):
+        r = run_step(0.0, prev, "preyz", prev_core, syz=v, corrected=(k == len(ladder) - 1))
+        if core0 is None:
+            core0 = prev_core if args.start_core else r["core"]
+            if dd0 is None:
+                dd0 = (r["dd_dy_A"], r["dd_dz_A"])
+        record(r)
+        if r["moved"] == "yes":
+            first_moved = r; break
+        last_unmoved = r
+        prev, prev_core = r["data"], r["core"]
+    coarse = [c for c in coarse if c > 0]           # the tau = 0 state is the last pre-ramp state
+    if first_moved is not None:
+        say(f"MOVED during the sigma_yz pre-ramp at sigma_yz = {first_moved['syz_GPa']:+.3f} GPa (tau = 0): no tau ramp")
+        coarse = []
 for k, s in enumerate(coarse):
     r = run_step(s, prev, "coarse", prev_core)
     if core0 is None:
@@ -214,7 +240,7 @@ for k, s in enumerate(coarse):
     prev, prev_core = r["data"], r["core"]
     say(f"progress: coarse step {k + 1} / {len(coarse)} (max) | elapsed {time.time() - t0:.0f} s")
 
-if first_moved is not None and last_unmoved is not None:
+if first_moved is not None and last_unmoved is not None and first_moved["kind"] != "preyz":
     say(f"coarse bracket: unmoved {last_unmoved['tau_GPa']:.3f}, moved {first_moved['tau_GPa']:.3f} GPa -> refining")
     prev, prev_core = last_unmoved["data"], last_unmoved["core"]
     n = int(round((first_moved["tau_GPa"] - last_unmoved["tau_GPa"]) / args.fine))
@@ -242,7 +268,7 @@ if first_moved is not None and last_unmoved is not None:
 else:
     say(f"RESULT {args.name}: no bracket found (first moved = {first_moved and first_moved['tau_GPa']}, last unmoved = {last_unmoved and last_unmoved['tau_GPa']})")
 
-keys = ["kind", "chi_deg", "tau_GPa", "sxy_target", "sxz_target", "sxy_surface", "eps_xx", "eps_zz", "gamma_xz", "E_total_eV", "E_pair_eV",
+keys = ["kind", "chi_deg", "syz_GPa", "tau_GPa", "sxy_target", "sxz_target", "sxy_surface", "eps_xx", "eps_zz", "gamma_xz", "E_total_eV", "E_pair_eV",
         "core_y_A", "core_z_ref_A", "dy_from_start_A", "dz_from_start_A", "dd_dy_A", "dd_dz_A", "dd_orient", "dd_shift_A", "topcol_b", "topcol_dy_A", "topcol_dz_A", "event", "core_change", "moved", "band_dz_step_A", "wfrac", "converged", "stop",
         "iterations", "fmax", "fnorm", "seconds"]
 with open(f"{root}/data/{args.name}.csv", "w", newline="") as f:

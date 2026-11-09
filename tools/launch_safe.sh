@@ -6,6 +6,9 @@
 #   - all screen output (stdout + stderr) goes to logs/<run_name>.out, never to the terminal
 #   - OMP_NUM_THREADS=1; NP = nproc - 1 is exported, so commands use "mpirun -np $NP" at most
 #   - the PID goes to logs/<run_name>.pid; check liveness with: ps -p $(cat logs/<run_name>.pid)
+#   - (v0.2, 2 Nov 2026) a memory sampler (tools/mem_sampler.sh, also detached) appends the summed RSS of all lmp processes
+#     every 10 s to the run log logs/<run_name>.log, and the peak at the end; MEM_PROC / MEM_INTERVAL override the process
+#     name / interval (used by the test on a dummy process)
 # The command runs inside the conda env "lammps".
 set -e
 name=$1; shift
@@ -18,4 +21,6 @@ export NP=$(( CORES - 1 ))
 echo "cores (nproc --all) = $CORES ; MPI ranks NP = $NP ; OMP_NUM_THREADS = $OMP_NUM_THREADS"
 setsid nohup "$@" > "$root/logs/$name.out" 2>&1 < /dev/null &
 echo $! > "$root/logs/$name.pid"
+setsid nohup "$root/tools/mem_sampler.sh" "$(cat "$root/logs/$name.pid")" "$root/logs/$name.log" "${MEM_PROC:-lmp}" "${MEM_INTERVAL:-10}" \
+    > /dev/null 2>&1 < /dev/null &
 echo "started $name, PID $(cat "$root/logs/$name.pid"); screen output -> logs/$name.out"

@@ -1,0 +1,171 @@
+{
+ "s": 0.75,
+ "phaseA": {
+  "-30": {
+   "run": "chi-30_syz+0.00",
+   "chi": -30,
+   "syz": 0.0,
+   "last_unmoved": 1.16,
+   "first_moved": 1.17,
+   "mid": 1.165,
+   "event": "split",
+   "first_event": "split",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "0": {
+   "run": "chi+0_syz+0.00",
+   "chi": 0,
+   "syz": 0.0,
+   "last_unmoved": 1.31,
+   "first_moved": 1.32,
+   "mid": 1.315,
+   "event": "glide_jump",
+   "first_event": "glide_jump",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "30": {
+   "run": "chi+30_syz+0.00",
+   "chi": 30,
+   "syz": 0.0,
+   "last_unmoved": 2.04,
+   "first_moved": 2.05,
+   "mid": 2.045,
+   "event": "glide_jump",
+   "first_event": "glide_jump",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  }
+ },
+ "corners": {
+  "-30,+0.75": {
+   "run": "chi-30_syz+0.75",
+   "chi": -30,
+   "syz": 0.75,
+   "last_unmoved": 1.24,
+   "first_moved": 1.25,
+   "mid": 1.245,
+   "event": "glide_jump",
+   "first_event": "glide_jump",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "-30,-0.75": {
+   "run": "chi-30_syz-0.75",
+   "chi": -30,
+   "syz": -0.75,
+   "last_unmoved": 0.72,
+   "first_moved": 0.73,
+   "mid": 0.725,
+   "event": "split",
+   "first_event": "split",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "0,+0.75": {
+   "run": "chi+0_syz+0.75",
+   "chi": 0,
+   "syz": 0.75,
+   "last_unmoved": 1.4,
+   "first_moved": 1.41,
+   "mid": 1.4049999999999998,
+   "event": "glide_jump",
+   "first_event": "glide_jump",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "0,-0.75": {
+   "run": "chi+0_syz-0.75",
+   "chi": 0,
+   "syz": -0.75,
+   "last_unmoved": 0.9,
+   "first_moved": 0.91,
+   "mid": 0.905,
+   "event": "split",
+   "first_event": "split",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "30,+0.75": {
+   "run": "chi+30_syz+0.75",
+   "chi": 30,
+   "syz": 0.75,
+   "last_unmoved": 1.52,
+   "first_moved": 1.53,
+   "mid": 1.525,
+   "event": "glide_jump",
+   "first_event": "glide_jump",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  },
+  "30,-0.75": {
+   "run": "chi+30_syz-0.75",
+   "chi": 30,
+   "syz": -0.75,
+   "last_unmoved": 1.67,
+   "first_moved": 1.68,
+   "mid": 1.6749999999999998,
+   "event": "split",
+   "first_event": "split",
+   "checks": {
+    "bracket": true,
+    "below_top": true,
+    "first_event_ok": true,
+    "no_preramp_move": true,
+    "stability": true
+   },
+   "rule3_pass": true
+  }
+ },
+ "verdict": "PASS",
+ "note": "s = 0.75"
+}

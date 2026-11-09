@@ -9,6 +9,8 @@ The core site before and after comes from the DD core finder (tools/ddmap_data.p
 with the largest |DD| sum). "returned" (D5, Ansh, Session 14; label-free, tools/moved_rule.same_state) = still compact at
 the same site (top column < 1.4 b), or still column-centred on the same column for a split state = a true resting state.
 The old label-based check (same Burgers triangle) is printed too, as returned_triangle.
+v0.2 (2 Nov 2026): --syz S adds sigma_yz = S (GPa) by surface forces along z (tools/loading_v02.py); --model_key picks the
+strain-model entry (default: the chi entry, as in v0.1). With --syz 0 the LAMMPS command is the v0.1 one.
 Prints one line: STABILITY <tag> tau=.. chi=.. np=.. seed=.. stop=.. it=.. fmax=.. fnorm=.. before=(dy,dz) after=(dy,dz) returned=yes/no
 """
 import argparse, json, os, re, subprocess, sys
@@ -16,18 +18,12 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from moved_rule import dd_state, same_state
 from rebox import rebox
+from loading_v02 import surface_force, model_correction, syz_correction
 A0 = 2.8553
 GPA_A2_TO_EV_A = 1e9 * 1e-20 / 1.602176634e-19 * 1e-10
 LIN = np.array([0.0, 0.0027625, 0.0164349])
-ap = argparse.ArgumentParser()
-ap.add_argument("data"); ap.add_argument("tau", type=float); ap.add_argument("chi", type=float); ap.add_argument("y0", type=float)
-ap.add_argument("tag")
-ap.add_argument("--seed", type=int, default=1); ap.add_argument("--np", type=int, default=int(os.environ.get("NP", 7)))
-ap.add_argument("--nz", type=int, default=21); ap.add_argument("--model", default=None)
-ap.add_argument("--ref", default=None, help="unstrained reference data file for the box (default: the state itself, chi = 0)")
-ap.add_argument("--jiggle", default="0.001"); ap.add_argument("--etol", default="0"); ap.add_argument("--ftol", default="1e-6")
-ap.add_argument("--dmax", default="0.01"); ap.add_argument("--maxit", type=int, default=200000); ap.add_argument("--maxeval", type=int, default=2000000)
-a = ap.parse_args()
+from stability_args import make_parser            # 3 Nov 2026: parser in its own module (definitions unchanged)
+a = make_parser().parse_args()
 root = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 os.makedirs("stab", exist_ok=True)
 
@@ -50,11 +46,9 @@ with open(f"stab/groups_{a.tag}.lmp", "w") as f:
     f.write("group top id " + " ".join(map(str, top)) + "\ngroup bot id " + " ".join(map(str, bot)) + "\n")
 chi = np.radians(a.chi)
 if a.model:                       # Session 13: also at chi = 0 (the sweep protocol applies the chi = 0 correction; Gate B' passed no --model)
-    m = json.load(open(a.model))["correction"][str(int(round(a.chi)))]
-    Q = np.array([m["q2"], m["q3"], m["q4"]])
+    c = model_correction(json.load(open(a.model))["correction"][a.model_key or str(int(round(a.chi)))], a.tau)
 else:
-    Q = np.zeros((3, 4))
-c = Q[0] * a.tau ** 2 + Q[1] * a.tau ** 3 + Q[2] * a.tau ** 4
+    c = np.zeros(4)
 e = LIN * a.tau * np.sin(chi) + c[:3]; sxy = a.tau * np.cos(chi) + c[3]
 Lx, Lz = LX0 * (1 + e[0]), LZ0 * (1 + e[1]); xz = XZ0 + e[2] * Lz
 fx = sxy * Lx * Lz * GPA_A2_TO_EV_A / len(top)
@@ -80,6 +74,11 @@ cmd = ["mpirun", "-np", str(a.np), "lmp", "-in", f"{root}/tools/in.step_chi", "-
        "-var", "groups", f"stab/groups_{a.tag}.lmp", "-var", "halt_dist", f"{3 * A0 * np.sqrt(6) / 3:.4f}",
        "-var", "etol", a.etol, "-var", "ftol", a.ftol, "-var", "dmax", a.dmax, "-var", "maxeval", str(a.maxeval),
        "-var", "jiggle", a.jiggle, "-var", "seed", str(a.seed)]
+if a.syz != 0.0:
+    fz = surface_force(a.syz + syz_correction(c), Lx, Lz, len(top))
+    cmd += ["-var", "fz", f"{fz:.10f}", "-var", "fzb", f"{-fz:.10f}"]
+if fx < 0:                                         # 3 Nov 2026: bottom x force as its own string (in.step_chi default -${fx})
+    cmd += ["-var", "fxb", f"{-fx:.10f}"]
 rc = subprocess.run(cmd).returncode
 log = open(f"stab/log.{a.tag}").read()
 if rc != 0 or "END " not in log:
